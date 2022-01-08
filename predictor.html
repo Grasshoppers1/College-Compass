@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future-edu|Predictor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
+<link rel="icon" href="images/tabicon.png" type="image/x-icon">
+</head>
+    <body>
+   <div class="predictor">
+       <h1>Predictor</h1>
+       <div class="main">
+        <form >
+            <h2 class="title">Personal Details</h2>
+            <div id="name">
+                <h2 class="name">Name</h2>
+                <input class="firstname" type="text" name="first_name" required><br>
+                <label class="firstlabel">first name*</label>
+ 
+                <input class="lastname" type="text" name="last_name" required><br>
+                <label class="lastlabel">last name*</label>
+ 
+ 
+                <h2 id="gender">Gender*</h2>
+                <label class="radio">
+                    <input class="radio-one" type="radio" name="status" required>
+                    Male
+                </label>
+                <label class="radio">
+                 <input class="radio-two" type="radio" name="status">
+                 Female
+             </label>
+ 
+ 
+                <h2 class="name">Email*</h2>
+                <input class="email" type="email" name="email" required>
+ 
+                <h2 class="name">Phone*</h2>
+                <input class="number" type="text" name="phone">
+                <label class="phone-number">Phone Number</label>
+ 
+ 
+                <h2 class="name"> Preferred Branch*</h2>
+                <select class="option"name="branch" required>
+                 <option disabled="disabled" selected="selected">--Choose Option--</option>
+                 <option> Computer Engineering</option>
+                 <option> Information Technology</option>
+                 <option> Electronics and Telecommunication</option>
+                 <option> Electronics Engineering</option>
+                 <option>Artificial Intelligence</option>
+                 <option>Civil Engineering</option>
+
+                </select>
+
+                <h2 class="name"> Minority*</h2>
+                <select class="option"name="branch" required>
+                 <option disabled="disabled" selected="selected">--Choose Option--</option>
+                 <option> None </option>
+                 <option> Hindi</option>
+                 <option> Gujarati</option>
+                 <option> Sindhi</option>
+                 <option> Punjabi</option>
+                 
+                </select>
+ 
+ 
+                            
+ 
+ 
+                <h2 class="title">Academic Details</h2>
+                
+                <h2 class="name">SSC Marks*</h2>
+                <input class="ssc" type="text" name="ssc_marks" required>
+                   
+                <h2 class="name">HSC Marks*</h2>
+                         <input class="hsc" type="text" name="hsc_marks" required>
+                         
+                         <h2 class="name">CET Score*</h2>     
+                    <input class="cet" type="text" name="cet_marks" required>
+                    
+                    
+               
+                    <button type="button" class="hero-btn predict" >Predict</button> 
+ 
+ 
+ 
+ 
+ 
+            </div>
+        </form>
+    </div>
+   </div>
+  
+    </body>
+</html>
