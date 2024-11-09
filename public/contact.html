@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College-Compass</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
+<link rel="icon" href="images/logo.png" type="image/x-icon">
+</head>
+<body>
+   <section class="sub-header">
+       <nav>
+        <a href="index.html"><img src="images/Indeximage.png"></a>
+           <div class="nav-links">
+               <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#Branch"> Branches</a></li>
+                <li><a href="predictor.html">  Predictor</a></li>
+                <li><a href="about.html"> About</a></li>
+                  
+                   
+            </ul>
+
+            <!-- search icon -->
+ </div>
+       </nav>
+       <h1>Contact us</h1>
+       
+   </section>
+
+
+<!-- ---------contact---------- -->
+
+<section class="contact-us">
+    <div class="row">
+        <div class="contact-col">
+            <div>
+                <h5><i class="fab fa-instagram"></i></h5>
+            <p>
+                @College-Compass
+            </p>
+            </div>
+            <div>
+                <h5><i class="fab fa-google-plus"></i></h5>
+            <p>
+                contact.collegecompass@gmail.com
+            </p>
+            </div>          
+            
+        </div>
+        <div class="contact-col">
+
+            <form id="contact-form">
+                <input type="text" id="name" placeholder="Enter your name" required>
+                <input type="email" id="email" placeholder="Enter your email address" required>
+                <input type="text" id="subject" placeholder="Enter your subject" required>
+                <textarea id="message" rows="8" placeholder="Message" required></textarea>
+                <button type="submit" class="hero-btn red-btn">Send</button>
+            </form>
+            
+           
+        </div>
+    </div>
+
+</section>
+
+
+
+
+<!-- ---------call to action--------- -->
+
+
+
+
+
+
+
+
+
+<!-- ---------Footer---------- -->
+
+
+<section class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="images/Indeximage.png" class="footer-logo" >
+               <p>A one-stop solution for students that includes
+                preferences, minority and simultaneously predicts a suitable college
+                   </p>
+             </div>
+             <div class="col-md-3">
+                <h4>Group Members</h4>
+                <p>Ayush Kumar Goyal</p>
+                <p>  Tanmay Gupta</p>
+                <p>  Parth Gupta</p>
+                <p>  </p>
+             </div>
+             <div class="col-md-3">
+                 <ul>
+                <h4>Branches</h4>
+                <li><a href="comps.html"><p>Computer Engineering</p></a></li>
+                <li><a href="IT.html"><p>Information Technology</p></a></li>
+                <li><a href="extc.html"><p>Electronics And Telecommunication</p></a></li>
+                     <li><a href="electronics.html"> <p>Electronics  Engineering</p></a></li>  
+                     <li><a href="AI.html"><p>Artificial-intelligence</p></a></li>
+                              <li><a href="civil.html"><p>Civil Engineering</p></a></li>
+                                  
+                                     
+            </ul>
+            </div>
+             <div class="col-md-3">
+                 <ul>
+                <h4>Other</h4>
+                <li><a href="predictor.html"><p>Predictor</p></a></li>
+                    <li><a href="about.html"><p>About Us</p></a></li>
+                </ul>
+             </div>
+             <div class="col-md-3">
+                <h4>Contact Us</h4>
+                <p><i class="fab fa-instagram"></i>@College-Compass</p>
+                <p><i class="fab fa-google-plus"></i>contact.collegecompass@gmail.com</p>
+             </div>
+
+        </div> <hr>
+        <p class="copyright">Made by JIITIANS</p>
+    </div>
+
+</section>
+
+<script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from refreshing the page
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+
+    const formData = {
+        name: name,
+        email: email,
+        subject: subject,
+        message: message
+    };
+
+    fetch('http://localhost:5000/send-email', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Email sent successfully');
+        document.getElementById('contact-form').reset(); // Clear the form
+    })
+    .catch(error => {
+        alert('Error sending email');
+        console.error(error);
+    });
+});
+
+</script>
+</body>
+</html>

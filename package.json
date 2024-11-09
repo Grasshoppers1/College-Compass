@@ -1,0 +1,22 @@
+{
+  "name": "College-Compass",
+  "version": "1.0.0",
+  "description": "![logo](https://user-images.githubusercontent.com/89039068/147740930-0d36bdb4-e6d1-4c03-99f9-8c1095a97a89.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-mongo": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.7.3",
+    "nodemailer": "^6.9.16"
+  }
+}

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College-Compass | Predictor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
+</head>
+<body>
+   <div class="predictor">
+       <h1>Predictor</h1>
+       <div class="main">
+        <form id="predictorForm">
+            <h2 class="title">Personal Details</h2>
+            <div id="name">
+                <h2 class="name">Name</h2>
+                <input class="firstname" type="text" name="first_name" required><br>
+                <label class="firstlabel">First Name*</label>
+ 
+                <input class="lastname" type="text" name="last_name" required><br>
+                <label class="lastlabel">Last Name*</label>
+ 
+                <h2 id="gender">Gender*</h2>
+                <label class="radio">
+                    <input class="radio-one" type="radio" name="gender" value="Gender-Neutral" required>
+                    Gender-Neutral
+                </label>
+                <label class="radio">
+                    <input class="radio-two" type="radio" name="gender" value="Female-Only">
+                    Female-only
+                </label>
+                  
+                <h2 class="name">Email*</h2>
+                <input class="email" type="email" name="email" required>
+
+
+                
+
+ 
+              
+ 
+                <h2 class="name">Preferred Branch*</h2>
+                <select class="option" name="branch" required>
+
+                    <option disabled="disabled" selected="selected">--Choose Option--</option>
+                    <option>ALL</option>
+                    <option>Computer Science and Engineering </option>
+                    <option>Electrical Engineering</option>
+                    <option>Electronics and Telecommunication</option>
+                    <option>Electronics and Communication Engineering</option>
+                    <option>Artificial Intelligence</option>
+                    <option>Civil Engineering</option>
+                    <option>Engineering Physics</option>
+                    <option>Mechanical Engineering</option>
+                    <option>Materials Science and Metallurgical Engineering</option>
+                    <option>Mechatronics Engineering</option>
+                    <option>Chemical Engineering</option>
+                    <option>Biosciences and Bioengineering</option>
+                    <option>Pharmaceutical Engineering & Technology</option>
+                    <option>Mining Engineering</option>
+                    <option>Mathematics and Computing</option>
+                    <option>Aerospace Engineering</option>
+                    <option>BS in Mathematics</option>
+                    <option>Chemistry</option>
+                    <option>Economics</option>
+                    <option>Biotechnology and Biochemical Engineering</option>
+                    <option>Architecture</option>
+                    <option>Agricultural and Food Engineering</option>
+                    <option>Space Sciences and Engineering</option>
+                    <option>Earth Sciences</option>
+                    <option>Industrial Chemistry</option>
+                    <option>Engineering Science</option>
+                    <option>Computational Engineering</option>
+                    
+
+
+                </select>
+ 
+                <h2 class="title">Academic Details</h2>
+                
+                <h2 class="name">JEE Rank*</h2>
+                <input class="ssc" type="text" name="jee_rank" required>
+                
+                <button type="button" class="hero-btn predict" onclick="submitForm()">Predict</button> 
+            </div>
+        </form>
+        <div id="result"></div>
+    </div>
+   </div>
+   <div id="limitModal" class="modal">
+    <div class="modal-content">
+        <h2>Session Limit Exceeded</h2>
+        <p>Please log in to continue searching.</p>
+        <button id="loginButton" onclick="window.location.href='login.html'">Login</button>
+    </div>
+</div>
+
+<!-- Modal Background -->
+<div id="modalBackground" class="modal-background"></div>
+   <script>
+    var a=false;
+       async function submitForm() {
+           const form = document.getElementById('predictorForm');
+           const formData = new FormData(form);
+           const branch = formData.get('branch') === 'ALL' ? '' : formData.get('branch'); // Send empty string for "ALL"
+           
+           if(branch==''){a=true;}
+           else{
+            a=false;
+           }
+            const data = {
+            first_name: formData.get('first_name'),
+            last_name: formData.get('last_name'),
+            gender: formData.get('gender'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            branch: branch,
+            jee_rank: formData.get('jee_rank')
+           };
+
+           console.log('Sending data:', data); // Debugging log
+
+           try {
+               const response = await fetch('http://localhost:5000/predict', {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json',
+                   },
+                   body: JSON.stringify(data),
+                   credentials: 'include' // Ensure session cookie is included in the request
+               });
+
+               if (response.ok) {
+                   const colleges = await response.json();
+                   displayResults(colleges);
+               }else if (response.status === 403) { // Assuming 401 is for unauthorized or login-required
+                showLoginPrompt();  // Show the login prompt if session limit exceeded 
+                } else {
+                   console.error('Failed to fetch colleges:', response.statusText);
+                   document.getElementById('result').innerHTML = `<p>Failed to fetch colleges: ${response.status} ${response.statusText}</p>`;
+               }
+           } catch (error) {
+               console.error('Error:', error);
+               document.getElementById('result').innerHTML = '<p>An error occurred. Please try again.</p>';
+           }
+       }
+
+    //    function displayResults(colleges) {
+    //        const resultDiv = document.getElementById('result');
+    //        resultDiv.innerHTML = '';
+
+    //        if (colleges.length === 0) {
+    //            resultDiv.innerHTML = '<p>No colleges found for your criteria.</p>';
+    //            return;
+    //        }
+
+    //        const list = document.createElement('ul');
+    //        colleges.forEach(college => {
+    //            const listItem = document.createElement('li');
+    //            if(a==false){
+    //            listItem.textContent = `${college['Institute Name ']} - Closing Rank: ${college['CLOSE RANK']} - NIRF RANK: ${college['NIRF_RANK']}`; 
+    //            }
+    //            else{
+    //             listItem.textContent = `${college['Institute Name ']} - ${college['Branch ']} -Closing Rank: ${college['CLOSE RANK']} - NIRF RANK: ${college['NIRF_RANK']}`;
+                
+    //            }
+    //            list.appendChild(listItem);
+    //        });
+
+    //        resultDiv.appendChild(list);
+    //    }
+
+    function showLoginPrompt() {
+        const modal = document.getElementById('limitModal');
+        const background = document.getElementById('modalBackground');
+        
+        modal.style.display = 'block';
+        background.style.display = 'block';
+    }
+
+    // Close the modal when clicked outside the modal content
+    document.getElementById('modalBackground').addEventListener('click', () => {
+        const modal = document.getElementById('limitModal');
+        const background = document.getElementById('modalBackground');
+        
+        modal.style.display = 'none';
+        background.style.display = 'none';
+    });
+
+    let currentPage = 1;
+const rowsPerPage = 15;
+
+function displayResults(colleges) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '';
+
+    if (colleges.length === 0) {
+        resultDiv.innerHTML = '<p>No colleges found for your criteria.</p>';
+        return;
+    }
+
+    // Calculate the starting and ending index for the current page
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const paginatedColleges = colleges.slice(startIndex, endIndex);
+
+    // Create table element
+    const table = document.createElement('table');
+    table.classList.add('result-table');
+
+    // Create table headers
+    const headerRow = document.createElement('tr');
+    const headers = a 
+        ? ['S.No', 'Institute Name', 'Branch', 'Closing Rank', 'NIRF Rank']
+        : ['S.No', 'Institute Name', 'Closing Rank', 'NIRF Rank'];
+
+    headers.forEach(headerText => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
+
+    // Add paginated college data rows
+    paginatedColleges.forEach((college, index) => {
+        const row = document.createElement('tr');
+
+        // Add the S.No column
+        const snoTd = document.createElement('td');
+        snoTd.textContent = startIndex + index + 1; // Calculate serial number based on page
+        row.appendChild(snoTd);
+
+        const columns = a 
+            ? [college['Institute Name '], college['Branch '], college['CLOSE RANK'], college['NIRF_RANK']]
+            : [college['Institute Name '], college['CLOSE RANK'], college['NIRF_RANK']];
+        
+        // Add each data cell
+        columns.forEach(columnData => {
+            const td = document.createElement('td');
+            td.textContent = columnData;
+            row.appendChild(td);
+        });
+
+        table.appendChild(row);
+    });
+
+    resultDiv.appendChild(table);
+
+    // Add pagination controls
+    const paginationDiv = document.createElement('div');
+    paginationDiv.classList.add('pagination');
+
+    if (currentPage > 1) {
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Previous';
+        prevButton.addEventListener('click', () => {
+            currentPage--;
+            displayResults(colleges);
+        });
+        paginationDiv.appendChild(prevButton);
+    }
+
+    if (endIndex < colleges.length) {
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Next';
+        nextButton.addEventListener('click', () => {
+            currentPage++;
+            displayResults(colleges);
+        });
+        paginationDiv.appendChild(nextButton);
+    }
+
+    resultDiv.appendChild(paginationDiv);
+}
+
+   </script>
+</body>
+</html>
