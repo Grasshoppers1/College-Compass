@@ -15,25 +15,23 @@
 </head>
 <body>
    <section class="header">
-       <nav>
-           <a href="index.html"><img src="images/Indeximage.png"></a>
-           <div class="nav-links">
-            <ul>
+    <nav>
+        <a href="index.html"><img src="images/Indeximage.png" alt="Logo"></a>
+        <div class="nav-links">
+            <ul id="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#Branch"> Branches</a></li>
-                <li><a href="index.html#predictor">  Predictor</a></li>
-                <li><a href="contact.html"> Contact</a></li>
-                <li><a href="login.html"> Login</a></li>
-                   
-                   
+                <li><a href="index.html#Branch">Branches</a></li>
+                <li><a href="index.html#predictor">Predictor</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="auth-link"><a href="login.html">Login</a></li>
             </ul>
-
-            <!-- search icon -->
- </div>
-       </nav>
+        </div>
+    </nav>
+    
+    
        <div class="text-box">
-        <h1>A Key to collegecompass</h1>
-         <a href="about.html" class="hero-btn">Visit us to know more!</a>
+        <h1>A Key to Future</h1>
+         <a href="about.html" class="hero-btn">Know more about us!</a>
     </div>
    </section>
 
@@ -245,7 +243,30 @@
     </div>
 
 </section>
+<script>
+    // Get user data from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
 
+    const authLink = document.getElementById('auth-link');
+    if (user) {
+        // User is logged in, display user menu
+        authLink.innerHTML = `
+            <div class="user-menu">
+                <span>Hello, ${user.name}</span>
+                <a href="#" id="logout">Logout</a>
+            </div>
+        `;
+
+        // Add logout functionality
+        document.getElementById('logout').addEventListener('click', () => {
+            localStorage.removeItem('user'); // Clear user data
+            window.location.reload(); // Reload page to update navbar
+        });
+    } else {
+        // User not logged in, keep Login link
+        authLink.innerHTML = `<a href="login.html">Login</a>`;
+    }
+</script>
 
 
 

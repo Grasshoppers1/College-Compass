@@ -7,10 +7,10 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
-
 const app = express();
+const { ObjectId } = require('mongodb');
 app.use(cors({
-    origin: ['http://localhost:5500', 'http://127.0.0.1:5500'],// Make sure this matches the frontend origin
+    origin: ['http://localhost:5500', 'http://127.0.0.1:5500','http://localhost:3000'],// Make sure this matches the frontend origin
     methods: ['GET', 'POST'],
     credentials: true, // Allow credentials (cookies) to be sent
 }
@@ -18,31 +18,6 @@ app.use(cors({
 ));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'aykg0517@gmail.com', // Your Gmail address
-        pass: 'ahdd knry hpnw nrfq'    // Your Gmail app password (for security)
-    }
-});
-app.post('/send-email', (req, res) => {
-    const { name, email, subject, message } = req.body;
-
-    const mailOptions = {
-        from: email,
-        to: 'aykg0517@gmail.com', // Your Gmail address
-        subject: `Contact form submission: ${subject}`,
-        text: `Message from: ${name}\nEmail: ${email}\n\nMessage: ${message}`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return res.status(500).json({message:'Error sending email'});
-        }
-        res.status(200).json({ message: 'Email sent successfully' });
-    });
-});
 
 const sessionStore = MongoStore.create({
     mongoUrl: 'mongodb://localhost:27017/Website-Users',
@@ -68,10 +43,41 @@ app.use((req, res, next) => {
 });
 console.log('Session middleware initialized');
 
+app.post('/send-email', async (req, res) => {
+    const { name, email, subject, message } = req.body;
+    // Nodemailer configuration
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com', // Gmail SMTP server
+  port: 587, // Port for STARTTLS
+  secure: false, // Use STARTTLS rather than SSL
+        auth: {
+            user: 'aykg0517@gmail.com', // replace with your Gmail address
+            pass: 'ukfv ryoz ndqm efjk' // replace with your Gmail password or app password
+        }
+    });
+    const mailOptions = {
+        from: email,
+        to: 'aykg0517@gmail.com', // replace with your Gmail address
+        subject: `Contact Form Submission: ${subject}`,
+        text: `You have received a new message from ${name} (${email}):\n\n${message}`
+    };
+
+    try {
+        // Send email
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: 'Your message has been sent successfully!' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ message: 'Failed to send your message. Please try again later.' });
+    }
+});
+
 // Database connections
 const collegeDb = mongoose.createConnection('mongodb://localhost:27017/College_Data', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,  // Set timeout for server selection
+    socketTimeoutMS: 30000,     
 });
 collegeDb.on('connected', () => console.log('Connected to College_Data database'));
 collegeDb.on('error', (error) => console.error('College_Data database connection error:', error));
@@ -91,6 +97,8 @@ const CollegeSchema = new mongoose.Schema({
     'SEAT TYPE': { type: String },
     'GENDER': { type: String },
     'OPEN RANK': { type: Number },
+    latitude: { type: Number }, // Add latitude if missing
+    longitude: { type: Number }, // Add longitude if missing5
 });
 const College = collegeDb.model('College', CollegeSchema, 'Name');
 
@@ -102,6 +110,10 @@ const PredictorUserSchema = new mongoose.Schema({
     phone: String,
     branch: String,
     jee_rank: Number,
+    location: {
+        latitude: { type: Number, required: false },
+        longitude: { type: Number, required: false },
+    },
 });
 const PredictorUser = userDb.model('PredictorUser', PredictorUserSchema, 'Ourusers');
 
@@ -128,13 +140,40 @@ app.post('/predict', async (req, res) => {
         return res.status(403).json({ message: 'Please log in to continue searching.' });
     }
 
-    const { first_name, last_name, gender, email, phone, branch, jee_rank } = req.body;
+    const { first_name, last_name, gender, email, phone,category, branch, jee_rank,latitude, longitude,locationPermissionGranted } = req.body;
     try {
         let existingUser = await PredictorUser.findOne({ email });
         if (!existingUser) {
-            const newUser = new PredictorUser({ first_name, last_name, gender, email, phone, branch, jee_rank });
+            const newUser = new PredictorUser({ first_name, last_name, gender, email, phone,category, branch, jee_rank,location: { latitude, longitude }, });
             await newUser.save();
         }
+        else{
+            existingUser.location = {latitude,longitude};
+            await existingUser.save();
+        }
+        const genderMap = {
+            Male: 'Gender-Neutral',
+            Female: 'Female-only (including Supernumerary)'
+        };
+        const schemaGender = genderMap[gender]||gender;
+
+        const haversineDistance = (lat1, lon1, lat2, lon2) => {
+            const R = 6371; // Earth radius in kilometers
+            const toRad = (deg) => deg * (Math.PI / 180); // Convert degrees to radians
+            
+            const dLat = toRad(lat2 - lat1); // Difference in latitude
+            const dLon = toRad(lon2 - lon1); // Difference in longitude
+            
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            
+            return R * c; // Returns the distance in kilometers
+        };
+      
 
         let query = {
             'CLOSE RANK': { $gt: parseInt(jee_rank) },
@@ -143,18 +182,55 @@ app.post('/predict', async (req, res) => {
         if (branch && branch !== 'ALL') {
             query['Branch '] = { $regex: new RegExp(branch.trim(), 'i') };
         }
+        if (category && category !== 'ALL') {
+            query['SEAT TYPE'] = category.trim();
+        }
+        if (schemaGender) {
+            query['GENDER'] = schemaGender;
+        }
+        console.log('Query:', query);
         const colleges = await College.find(query).sort({ 'CLOSE RANK': 1 });
         console.log('Colleges found:', colleges);
+        console.log('Gender used in query:', schemaGender);
+        if (!locationPermissionGranted) {
+            return res.json({ colleges });
+        }
 
         if (colleges.length === 0) {
             return res.status(404).json({ message: 'No colleges found for your criteria.' });
         }
+        const collegesWithDistance = colleges.map(college => {
+            console.log('College Data:', college);  // Log the college data
+            if ( !college.latitude || !college.longitude) {
+                console.warn(`Skipping college due to missing location: ${college['Institute Name ']}`);
+                return null;
+            }
+            const collegeLat = college.latitude; // Latitude of the college
+            const collegeLon = college.longitude; // Longitude of the college
+            
+            // Calculate distance from user to college
+            const distance = haversineDistance(latitude, longitude, collegeLat, collegeLon);
+            console.log(`Distance from user to ${college['Institute Name ']}: ${distance} km`);
+    
+            return {
+                ...college.toObject(),distance // Add the calculated distance
+            };
+        }).filter(Boolean);
+    
+        // Sort colleges by distance in ascending order (nearest first)
+        collegesWithDistance.sort((a, b) => a.distance - b.distance);
+        console.log('Colleges with calculated distance:', collegesWithDistance);
 
-        res.json(colleges);
+    
+        // Send the sorted result
+        res.json(collegesWithDistance);
+        
+    
     } catch (error) {
         console.error('Error fetching colleges:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
+    
 });
 
 // Signup route
@@ -190,16 +266,57 @@ app.post('/login', async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
-
+        req.session.user = { id: user._id, name: user.name }; // For sessions
+         
         req.session.searchCount = 0;  // Reset search count on login
         console.log('Login successful. Session ID:', req.sessionID);
-
-        res.status(200).json({ message: 'Login successful' });
+        res.json({ success: true, user: { name: user.name } });
+       
     } catch (error) {
         console.error('Error during login:', error);
         res.status(500).json({ message: 'Server error during login' });
     }
 });
+
+const collegedetailsSchema = new mongoose.Schema({
+    _id:  mongoose.Schema.Types.ObjectId,
+    "Institute Name ": String,
+    Established: Number,
+    Exam: String,
+    Courses: String,
+    "Institute Type And Approvals": String,
+    Gender: String,
+    "Student Count": Number,
+    "Faculty Count": Number,
+    "Campus Size": String,
+    "Gender Percentage": String,
+    "Percentage Of Students from Outside the States": String
+},{ collection: 'college_details' });
+
+const CollegeDetail = collegeDb.model('CollegeDetail', collegedetailsSchema, 'college_details');
+
+// API Endpoint to Fetch College Details by ID
+app.get('/college-details', async (req, res) => {
+
+    const instituteName = req.query.name;
+    if (!instituteName) {
+        return res.status(400).send({ error: 'Institute name is required.' });
+    }
+
+    try {
+        const collegeDetails = await CollegeDetail.findOne({ 'Institute Name ': instituteName });
+        if (!collegeDetails) {
+            return res.status(404).send({ error: 'College not found.' });
+        }
+
+        res.json(collegeDetails);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server error.' });
+    }
+});
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

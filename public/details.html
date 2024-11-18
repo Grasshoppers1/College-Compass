@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><!DOCTYPE html>
+    <html lang="en">
+    <>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>College-Details</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
+    <link rel="icon" href="images/Indeximage.png" type="image/x-icon">
+    
+    
+</head>
+<body>
+    <section class="sub-header">
+        <nav>
+            <a href="index.html"><img src="images/Indeximage.png" alt="Logo"></a>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#Branch">Branches</a></li>
+                    <li><a href="predictor.html">Predictor</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+        </nav>
+        <h1>College Details</h1>
+    </section>
+    
+    <div id="college-details">
+        <p>Loading college details...</p>
+    </div>
+
+    <script>
+        // Extract and trim query parameter
+        const getInstituteNameFromUrl = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+         let instituteName = urlParams.get('name');
+            return instituteName ? decodeURIComponent(instituteName.trim()) : null; // Return null if no id is found
+        };
+    
+        // Fetch and display college details
+        async function fetchCollegeDetails() {
+            const detailsDiv = document.getElementById('college-details');
+            const instituteName = getInstituteNameFromUrl();
+    
+            // Check if collegeId is valid
+            if (!instituteName) {
+        detailsDiv.innerHTML = `<p>Error: Invalid or missing institute name.</p>`;
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:5000/college-details?name=${encodeURIComponent(instituteName)}`);
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+        }
+    
+                const data = await response.json();
+    
+                // Render details in the UI
+                detailsDiv.innerHTML = `
+                    <h1>${data['Institute Name ']}</h1>
+                    <table>
+                        <tr><th>Established Year</th><td>${data.Established}</td></tr>
+                        <tr><th>Courses Offered</th><td>${data.Courses}</td></tr>
+                        <tr><th>Institute Type & Approvals</th><td>${data['Institute Type And Approvals']}</td></tr>
+                        <tr><th>Gender</th><td>${data.Gender}</td></tr>
+                        <tr><th>Student Count</th><td>${data['Student Count']}</td></tr>
+                        <tr><th>Faculty Count</th><td>${data['Faculty Count']}</td></tr>
+                        <tr><th>Campus Size</th><td>${data['Campus Size']}</td></tr>
+                        <tr><th>Gender Percentage</th><td>${data['Gender Percentage']}</td></tr>
+                        <tr><th>Percentage of Students from Outside the States</th><td>${data['Percentage Of Students from Outside the States']}</td></tr>
+                    </table>
+                `;
+            } catch (error) {
+                // Log and display errors
+                console.error('Error fetching college details:', error);
+                detailsDiv.innerHTML = `<p>Error loading details: ${error.message}</p>`;
+            }
+        }
+    
+        // Initialize fetching of college details
+        document.addEventListener('DOMContentLoaded', fetchCollegeDetails);
+    </script>
+    
+</body>
+</html>
