@@ -54,14 +54,22 @@
             </div>          
             
         </div>
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner">
+                <div class="clock">
+                    <div class="clock-hand"></div>
+                </div>
+                <p>Sending...</p>
+            </div>
+        </div>
         <div class="contact-col">
 
             <form id="contact-form">
-                <input type="text" id="name" placeholder="Enter your name" required>
-                <input type="email" id="email" placeholder="Enter your email address" required>
-                <input type="text" id="subject" placeholder="Enter your subject" required>
-                <textarea id="message" rows="8" placeholder="Message" required></textarea>
-                <button type="submit" class="hero-btn red-btn">Send</button>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                <input type="text" id="subject" name="subject" placeholder="Enter your subject" required>
+                <textarea id="message" rows="8" name="message" placeholder="Message" required></textarea>
+                <button type="submit" class="hero-btn red-btn" onclick="sendEmail(event)">Send</button>
             </form>
             
            
@@ -133,41 +141,47 @@
     </div>
 
 </section>
-
 <script>
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form from refreshing the page
+    async function sendEmail(event) {
+        
+        const form = document.getElementById('contact-form');
+        document.getElementById('loadingOverlay').style.display = 'flex';
+        const formData = new FormData(form);
+        const data={
+            name: formData.get('name'),
+            email:formData.get('email'),
+            subject:formData.get('subject'),
+            message: formData.get('message')
+        };
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const subject = document.getElementById('subject').value;
-    const message = document.getElementById('message').value;
+        event.preventDefault(); // Prevent the default form submission
+        
+        try {
+            const response = await fetch('http://localhost:5000/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+                credentials: 'include' // Ensure session cookie is included in the request
 
-    const formData = {
-        name: name,
-        email: email,
-        subject: subject,
-        message: message
-    };
+            });
+    
+            if (!response.ok) {
+            throw new Error('Failed to send message');
+        }
 
-    fetch('http://localhost:5000/send-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert('Email sent successfully');
-        document.getElementById('contact-form').reset(); // Clear the form
-    })
-    .catch(error => {
-        alert('Error sending email');
-        console.error(error);
-    });
-});
+        const result = await response.json();
+        alert(result.message);
+    } catch (error) {
+        console.error('Error in sendEmail:', error);
+        alert('Failed to send your message. Please try again later.');
+    }
+    finally {
+        // Hide loading overlay after the request completes
+        document.getElementById('loadingOverlay').style.display = 'none';
+    }
+}
+    
+    </script>
 
-</script>
 </body>
 </html>

@@ -35,9 +35,33 @@
                 <div class="card-back">
                     <h2>REGISTER</h2>
                     <form id="signupForm">
-                        <input type="text" class="input-box" name="name" placeholder="Your Name" required>
-                        <input type="email" class="input-box" name="email" placeholder="Your Email Id" required>
-                        <input type="password" class="input-box" name="password" placeholder="Password" required>
+                        <input type="text" class="input-box" name="name" placeholder="Full Name" required>
+                        <input type="email" class="input-box" name="email" placeholder="Email" required>
+                        <div class="phone-container">
+                            <select class="input-box country-code" name="countryCode" required>
+                                <option value="+1">+1 (US)</option>
+                                <option value="+91">+91 (India)</option>
+                                <option value="+44">+44 (UK)</option>
+                                <!-- Add other country codes as needed -->
+                            </select>
+                            <input type="text" class="input-box mobile-number" name="mobile" placeholder="Mobile Number" maxlength="10" pattern="\d{10}" required>
+                        </div>
+                        <select class="input-box country-code       " name="studyingIn" required>
+                            <option value="" disabled selected>Studying In</option>
+                            <option value="12th">12th</option>
+                            <option value="11th">11th</option>
+                            <option value="College">College</option>
+                        </select>
+                    
+
+                        
+                            <input type="password" class="input-box" id="password" name="password" placeholder="Password" required>
+                            <div class="strength-indicator">
+                                <span id="strengthText">Strength: </span>
+                                <div id="strengthMeter" class="strength-meter"></div>
+                            </div>
+                        
+                        
                         <button type="submit" class="submit-btn_login">Submit</button>
                         <input type="checkbox"><span>Remember Me</span>
                     </form>
@@ -59,6 +83,51 @@
     </div>
 
     <script>
+        document.getElementById("password").addEventListener("input", checkPasswordStrength);
+
+function checkPasswordStrength() {
+    const password = document.getElementById("password").value;
+    const strengthMeter = document.getElementById("strengthMeter");
+    const strengthText = document.getElementById("strengthText");
+
+    let strength = 0;
+
+    // Check password strength criteria
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[\W_]/.test(password)) strength++;
+
+    // Remove previous strength classes
+    strengthMeter.classList.remove("weak", "medium", "strong");
+
+    // Apply the appropriate class based on strength
+    switch (strength) {
+        case 0:
+            strengthMeter.classList.add("weak");
+            strengthText.textContent = "Strength: Very Weak";
+            break;
+        case 1:
+            strengthMeter.classList.add("weak");
+            strengthText.textContent = "Strength: Weak";
+            break;
+        case 2:
+            strengthMeter.classList.add("medium");
+            strengthText.textContent = "Strength: Medium";
+            break;
+        case 3:
+            strengthMeter.classList.add("strong");
+            strengthText.textContent = "Strength: Strong";
+            break;
+        case 4:
+            strengthMeter.classList.add("strong");
+            strengthText.textContent = "Strength: Very Strong";
+            break;
+    }
+}
+
+
+
         var card = document.getElementById("card");
         var forgotPasswordForm = document.getElementById("forgotPasswordForm");
 
@@ -119,7 +188,11 @@
                 alert(result.message);
 
                 if (response.ok) {
+                    localStorage.setItem('user', JSON.stringify(data.user)); // Save user info
                     window.location.href = "index.html"; // Adjust the URL as needed
+                }
+                else{
+                    alert(data.message);
                 }
             } catch (error) {
                 console.error('Error during login:', error);
@@ -152,5 +225,6 @@
             }
         });
     </script>
+    
 </body>
 </html>

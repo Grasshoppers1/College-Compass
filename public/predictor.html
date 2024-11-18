@@ -14,7 +14,28 @@
     <link rel="icon" href="images/logo.png" type="image/x-icon">
 </head>
 <body>
-   <div class="predictor">
+        
+        
+    
+        <div class="predictor">
+            
+            <nav>
+                <a href="index.html"><img src="images/Indeximage.png"></a>
+                <div class="nav-links">
+                 <ul>
+                     <li><a href="index.html">Home</a></li>
+                     <li><a href="index.html#Branch"> Branches</a></li>
+                     <li><a href="index.html#predictor">  Predictor</a></li>
+                     <li><a href="contact.html"> Contact</a></li>
+                     <li><a href="login.html"> Login</a></li>
+                        
+                        
+                 </ul>
+     
+                 <!-- search icon -->
+      </div>
+            </nav>
+   
        <h1>Predictor</h1>
        <div class="main">
         <form id="predictorForm">
@@ -30,11 +51,11 @@
                 <h2 id="gender">Gender*</h2>
                 <label class="radio">
                     <input class="radio-one" type="radio" name="gender" value="Gender-Neutral" required>
-                    Gender-Neutral
+                    Male
                 </label>
                 <label class="radio">
-                    <input class="radio-two" type="radio" name="gender" value="Female-Only">
-                    Female-only
+                    <input class="radio-two" type="radio" name="gender" value="Female-only (including Supernumerary)">
+                    Female
                 </label>
                   
                 <h2 class="name">Email*</h2>
@@ -82,6 +103,19 @@
 
 
                 </select>
+
+                <h2 class="name">Category*</h2>
+                    <select class="option" name="category" required>
+                        <option disabled="disabled" selected="selected">--Choose Category--</option>
+                        <option>OPEN</option>
+                        <option>OBC-NCL</option>
+                        <option>OBC-NCL (PwD)</option>
+                        <option>OPEN (PwD)</option>
+                        <option>SC</option>
+                        <option>ST</option>
+                        <option>EWS</option>
+                    </select>
+                    <p class="rank-info">Opening/Closing Ranks for Open Seats represent CRL. Opening/Closing Ranks for EWS, OBC-NCL, SC and ST Seats represent respective Category Ranks. Opening/Closing Ranks for PwD Seats represent PwD Ranks within Respective Categories.</p>
  
                 <h2 class="title">Academic Details</h2>
                 
@@ -104,12 +138,90 @@
 
 <!-- Modal Background -->
 <div id="modalBackground" class="modal-background"></div>
+<section class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="images/Indeximage.png" class="footer-logo" >
+               <p>A one-stop solution for students that includes
+                preferences, minority and simultaneously predicts a suitable college
+                   </p>
+             </div>
+             <div class="col-md-3">
+                <h4>Group Members</h4>
+                <p>Ayush Kumar Goyal</p>
+                <p>  Tanmay Gupta</p>
+                <p>  Parth Gupta</p>
+                <p>  </p>
+             </div>
+             <div class="col-md-3">
+                 <ul>
+                <h4>Branches</h4>
+                <li><a href="comps.html"><p>Computer Engineering</p></a></li>
+                <li><a href="IT.html"><p>Information Technology</p></a></li>
+                <li><a href="extc.html"><p>Electronics And Telecommunication</p></a></li>
+                     <li><a href="electronics.html"> <p>Electronics  Engineering</p></a></li>  
+                     <li><a href="AI.html"><p>Artificial-intelligence</p></a></li>
+                              <li><a href="civil.html"><p>Civil Engineering</p></a></li>
+                                  
+                                     
+            </ul>
+            </div>
+             <div class="col-md-3">
+                 <ul>
+                <h4>Other</h4>
+                <li><a href="predictor.html"><p>Predictor</p></a></li>
+                    <li><a href="about.html"><p>About Us</p></a></li>
+                </ul>
+             </div>
+             <div class="col-md-3">
+                <h4>Contact Us</h4>
+                <p><i class="fab fa-instagram"></i>@collegecompassedu</p>
+                <p><i class="fab fa-google-plus"></i>contact.collegecompassedu@gmail.com</p>
+             </div>
+
+        </div> <hr>
+        <br class="copyright"><br>Made by Students</br>
+            <br> Made for students </br>
+            </p>
+    </div>
+
+</section>
+
    <script>
-    var a=false;
+     let latitude = null;
+       let longitude = null;
+       let locationDenied = false;
+       window.onload = function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+                        console.log('Latitude:', latitude, 'Longitude:', longitude);
+                    },
+                    (error) => {
+                        console.warn('Error fetching location:', error.message);
+                        alert('Location permission denied. Predictions might not be accurate.');
+                        locationDenied = true;
+                        
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
+                locationDenied = true;
+                
+            }
+        };
+    let a=false;
+   
        async function submitForm() {
+       
+
            const form = document.getElementById('predictorForm');
            const formData = new FormData(form);
            const branch = formData.get('branch') === 'ALL' ? '' : formData.get('branch'); // Send empty string for "ALL"
+           const category = formData.get('category'); // Get the selected category
            
            if(branch==''){a=true;}
            else{
@@ -122,7 +234,11 @@
             email: formData.get('email'),
             phone: formData.get('phone'),
             branch: branch,
-            jee_rank: formData.get('jee_rank')
+            category: category,
+            jee_rank: formData.get('jee_rank'),
+            latitude: locationDenied ? undefined : latitude,  // Include latitude only if permission granted
+            longitude: locationDenied ? undefined : longitude,  // Include longitude only if permission granted
+            locationPermissionGranted: !locationDenied  // Send true if permission is granted
            };
 
            console.log('Sending data:', data); // Debugging log
@@ -138,8 +254,24 @@
                });
 
                if (response.ok) {
-                   const colleges = await response.json();
+                const responseData = await response.json();
+                console.log('Response Data:', responseData); // Log the entire response
+                colleges = Array.isArray(responseData) ? responseData : responseData.colleges;
+
+                if (colleges) {
+                    console.log('Colleges received:', colleges);
+                    displayResults(colleges);
+                } else {
+                    console.error('Colleges data is missing or undefined');
+                    document.getElementById('result').innerHTML = '<p>No colleges data received.</p>';
+                }
+console.log('Colleges received:', colleges);
+                        if(colleges){
                    displayResults(colleges);
+                        }
+                        else{
+                            console.error('Colleges data is missing or undefined');
+                        }
                }else if (response.status === 403) { // Assuming 401 is for unauthorized or login-required
                 showLoginPrompt();  // Show the login prompt if session limit exceeded 
                 } else {
@@ -149,6 +281,7 @@
            } catch (error) {
                console.error('Error:', error);
                document.getElementById('result').innerHTML = '<p>An error occurred. Please try again.</p>';
+              
            }
        }
 
@@ -218,8 +351,8 @@ function displayResults(colleges) {
     // Create table headers
     const headerRow = document.createElement('tr');
     const headers = a 
-        ? ['S.No', 'Institute Name', 'Branch', 'Closing Rank', 'NIRF Rank']
-        : ['S.No', 'Institute Name', 'Closing Rank', 'NIRF Rank'];
+        ? ['S.No', 'Institute Name', 'Branch', 'Closing Rank', 'NIRF Rank,Distance (km)']
+        : ['S.No', 'Institute Name','Branch', 'Closing Rank', 'NIRF Rank','Distance (km)'];
 
     headers.forEach(headerText => {
         const th = document.createElement('th');
@@ -237,9 +370,28 @@ function displayResults(colleges) {
         snoTd.textContent = startIndex + index + 1; // Calculate serial number based on page
         row.appendChild(snoTd);
 
+    //     const nameTd = document.createElement('td');
+    // nameTd.innerHTML = `<a href="http://localhost:5000/details.html/${college._id}" class="clickable-name" target="_blank">${college['Institute Name ']}</a>`;
+    // row.appendChild(nameTd);
+
+    const nameTd = document.createElement('td');
+
+// Check if the necessary data is available
+console.log(college);  // Check if college._id and college['Institute Name '] are correct
+
+nameTd.innerHTML = `
+    <a href="http://127.0.0.1:5500/COLLEGE-COMPASS/public/details.html?name=${encodeURIComponent(college['Institute Name '])}" 
+       class="clickable-name" target="_blank">
+       ${college['Institute Name ']}
+    </a>`;
+
+row.appendChild(nameTd);
+
+    
+
         const columns = a 
-            ? [college['Institute Name '], college['Branch '], college['CLOSE RANK'], college['NIRF_RANK']]
-            : [college['Institute Name '], college['CLOSE RANK'], college['NIRF_RANK']];
+            ? [college['Branch '], college['CLOSE RANK'], college['NIRF_RANK'],college.distance ? college.distance.toFixed(2) : 'N/A']
+            : [college['Branch '],college['CLOSE RANK'], college['NIRF_RANK'],college.distance ? college.distance.toFixed(2) : 'N/A'];
         
         // Add each data cell
         columns.forEach(columnData => {
@@ -279,6 +431,15 @@ function displayResults(colleges) {
 
     resultDiv.appendChild(paginationDiv);
 }
+function showLoginPrompt() {
+           document.getElementById('limitModal').style.display = 'block';
+           document.getElementById('modalBackground').style.display = 'block';
+       }
+
+       document.getElementById('modalBackground').addEventListener('click', () => {
+           document.getElementById('limitModal').style.display = 'none';
+           document.getElementById('modalBackground').style.display = 'none';
+       });
 
    </script>
 </body>

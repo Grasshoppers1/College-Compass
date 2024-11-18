@@ -17,13 +17,21 @@
 }
 nav{
     display: flex;
-    padding: 2px 60px ;
+    padding: 20px 10% ;
     justify-content: space-between;
+    
+    color: white;
     align-items: center;
 }
 /* nav img{
     width: 150px;
 } */
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
 nav img,
 .footer-logo {
     width: 290px; /* Adjust size as needed */
@@ -34,6 +42,9 @@ nav img,
 .nav-links{
     flex: 1;
     text-align: right;
+    list-style: none;
+    display: flex;
+    gap: 15px;
 }
 .nav-links ul li{
     list-style: none;
@@ -551,7 +562,7 @@ h1{
     background-position: center;
 }
 
-.card{
+/*.card{
     width: 350px;
     height: 500px;
     box-shadow: 0 0 40px 20px rgba(0,0,0,0.26);
@@ -564,7 +575,24 @@ h1{
         height: 100%;
         transform-style: preserve-3d;
         transition: transform 1s;
+}*/
+.card {
+    width: 500px; /* Adjust width as needed */
+    height: 700px; /* Adjust height as needed */
+    position: relative;
+    perspective: 1000px; /* Enables 3D effect for flipping */
+    transition: transform 0.6s;
+    margin: auto;
 }
+
+.inner-box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
 
 .card-front, .card-back{
     position: absolute;
@@ -587,7 +615,7 @@ h1{
     text-align: center;
     margin-bottom: 20px;
 }
-.input-box{
+/*.input-box{
     width:100%;
     background: transparent;
     border: 1px solid #fff;
@@ -603,7 +631,41 @@ h1{
 ::placeholder{
     color: #fff;
     font-size: 12px;
+}*/
+.input-box {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1); /* Subtle translucent background */
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Soft border */
+    margin: 10px 0; /* Slightly increased margin for spacing */
+    height: 40px; /* Increased height for better usability */
+    border-radius: 25px; /* Smooth, round corners */
+    padding: 0 15px;
+    box-sizing: border-box;
+    outline: none;
+    color: #fff;
+    font-size: 14px; /* Increased font size for readability */
+    text-align: left; /* Aligned text to left for a more natural input flow */
+    transition: all 0.3s ease; /* Smooth transition effect */
 }
+
+.input-box:focus {
+    background: rgba(255, 255, 255, 0.2); /* Slightly brighter background on focus */
+    border: 1px solid #fff; /* Stronger border on focus */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); /* Subtle glow effect */
+}
+
+.input-box::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Softer placeholder color */
+    font-size: 14px; /* Placeholder font size matches input text */
+    font-style: italic; /* Adds a soft style to the placeholder text */
+    transition: color 0.3s ease; /* Smooth transition for placeholder */
+}
+
+.input-box:hover {
+    background: rgba(255, 255, 255, 0.15); /* Slightly darkens on hover */
+    border: 1px solid rgba(255, 255, 255, 0.8); /* Brighter border on hover */
+}
+
 /* button{
     width:100%;
     background: transparent;
@@ -618,6 +680,70 @@ h1{
     color: #fff;
     cursor: pointer;
 } */
+password-container {
+    margin-top: 20px;
+}
+.strength-indicator {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+#strengthText {
+    font-size: 16px;               /* Slightly larger text */
+    margin-right: 15px;            /* More space between the text and the meter */
+    font-weight: bold;             /* Make the text bold */
+    text-transform: capitalize;    /* Capitalize the text for a cleaner look */
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    color: #efeded;
+       /* Smooth color transition when strength changes */
+}
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-menu span {
+    font-weight: bold;
+}
+
+.user-menu a {
+    text-decoration: none;
+    color: red;
+}
+
+.strength-meter {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background-color: #ddd;
+    overflow: hidden;
+    position: relative;
+}
+.strength-meter::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 0%;
+    background-color: #f00;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.weak::after {
+    width: 33%;
+    background-color: #ff4d4d; /* Red for weak */
+}
+
+.medium::after {
+    width: 66%;
+    background-color: #ffa500; /* Orange for medium */
+}
+
+.strong::after {
+    width: 100%;
+    background-color: #4caf50; /* Green for strong */
+}
+
 .submit-btn_login{
     position:relative;
     width:100%;
@@ -634,7 +760,7 @@ h1{
     cursor: pointer;
 }
 .submit-btn_login:hover{
-    border: 2px solid #faae42;
+    border: 2px solid #d8c8b2;
     background: #FAAE42;
     transition: 1s;
 }
@@ -1066,28 +1192,44 @@ form{
 
 
 .result-table {
-    width: 100%;
+    /* width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-family: Arial, sans-serif;
-    cursor: pointer;
+    cursor: pointer; */
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    font-size: 14px;
+    color: #333; /* Dark gray text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     
 }
 
 .result-table th, .result-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+   /* border: 1px solid #ddd; */
+  /*  padding: 10px;*/
     text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd; /* Subtle border between rows */
 }
 
 .result-table th {
-    background-color: #555555;
+    /* background-color: #555555;
     color: white;
+    font-weight: bold; */
+    background-color: #f4f4f4; /* Light gray for headers */
+    color: #555; /* Slightly darker text for contrast */
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 2px solid #ddd;
     font-weight: bold;
 }
 
 .result-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; /* Light background on hover */
+    cursor: pointer;
 }
 
 .result-table tr:hover {
@@ -1156,6 +1298,19 @@ form{
 .result-table tr:hover {
     background-color: #e0e0e0;
 }
+
+.result-table .clickable-name {
+    color: #1a73e8; /* Google blue */
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;   
+}
+
+.result-table .clickable-name:hover {
+    text-decoration: underline;
+
+}
+
 
 .pagination {
     display: flex;
@@ -1242,4 +1397,179 @@ form{
 
 #limitModal button:hover {
     background-color: #45a049;
+}
+.rank-info {
+    color: red;
+    font-size: 14px; /* Adjust the font size as needed */
+    margin-top: 5px; /* Optional, for spacing */
+}
+
+
+/* Overlay styling */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Loading text and spinner styling */
+.loading-spinner {
+    color: #fff;
+    text-align: center;
+}
+
+/* Clock styling */
+.clock {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 10px;
+    animation: spin 1s linear infinite;
+}
+
+/* Clock hand */
+.clock-hand {
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background: #fff;
+    top: 5px;
+    left: 24px;
+    animation: tick 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes tick {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* General Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f6fa; /* Light background */
+    color: #333; /* Dark text for contrast */
+    margin: 0;
+    padding: 0;
+}
+h1, h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#college-details {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff; /* White card-style background */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+h1 {
+    font-size: 2rem;
+    color: #0047ab; /* Navy blue color */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+th {
+    background: #97a0ac; /* Navy blue */
+    color: #ffffff; /* White text */
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+td {
+    border-bottom: 1px solid #ddd; /* Light grey divider */
+    color: #555; /* Slightly muted text for readability */
+}
+
+/* Hover Effects */
+tr:hover td {
+    background-color: #f1f1f1; /* Light gray hover effect */
+}
+
+/* Last Row Border Removal */
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+}
+
+/* Button Styles (Optional for Future Use) */
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0047ab;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #003580; /* Darker blue */
+}
+.sub-header {
+    background: #e8f1f9; /* Light blue background */
+    padding: 40px 0;
+    text-align: center;
+}
+
+.sub-header h1 {
+    color: #0047ab;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+.details-container h2 {
+    font-size: 2rem;
+    color: #0047ab;
+    text-align: center;
+    margin-bottom: 20px;
 }
