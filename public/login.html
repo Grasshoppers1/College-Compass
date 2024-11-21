@@ -1,259 +1,641 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>College-Compass | Login</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
-    <link rel="icon" href="images/logo.png" type="image/x-icon">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css"
+    />
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
+  </head>
+  <body>
     <div class="logcontainer">
-        <div class="card">
-            <div class="inner-box" id="card">
+      <div class="card">
+        <div class="inner-box" id="card">
+          <!-- Login Form -->
+          <div class="card-front">
+            <h2>LOGIN</h2>
+            <form id="loginForm">
+              <input
+                type="email"
+                class="input-box"
+                name="email"
+                placeholder="Your Email Id"
+                required
+              />
+              <input
+                type="password"
+                class="input-box"
+                name="password"
+                placeholder="Password"
+                required
+              />
+              <button type="submit" class="submit-btn_login">Submit</button>
+              <input type="checkbox" /><span>Remember Me</span>
+            </form>
+            <button type="button" class="btn" onclick="openRegister()">
+              I'm New Here
+            </button>
+            <a href="javascript:void(0);" onclick="openForgotPassword()"
+              >Forgot Password</a
+            >
+          </div>
 
-                <!-- Login Form -->
-                <div class="card-front">
-                    <h2>LOGIN</h2>
-                    <form id="loginForm">
-                        <input type="email" class="input-box" name="email" placeholder="Your Email Id" required>
-                        <input type="password" class="input-box" name="password" placeholder="Password" required>
-                        <button type="submit" class="submit-btn_login">Submit</button>
-                        <input type="checkbox"><span>Remember Me</span>
-                    </form>
-                    <button type="button" class="btn" onclick="openRegister()">I'm New Here</button> 
-                    <a href="javascript:void(0);" onclick="openForgotPassword()">Forgot Password</a>
-                </div>
+          <!-- Register Form -->
+          <div class="card-back">
+            <h2>REGISTER</h2>
+            <form id="signupForm">
+              <input
+                type="text"
+                class="input-box"
+                name="name"
+                placeholder="Full Name"
+                required
+              />
+              <input
+                type="email"
+                class="input-box"
+                name="email"
+                placeholder="Email"
+                required
+              />
+              <div class="phone-container">
+                <select
+                  class="input-box dropdown"
+                  name="countryCode"
+                  id="countryDropdown"
+                  required
+                >
+                  <option value="+91">+91 (India)</option>
+                  <option value="+1">+1 (US)</option>
+                  <option value="+93">+93 (Afghanistan)</option>
+                  <option value="+355">+355 (Albania)</option>
+                  <option value="+213">+213 (Algeria)</option>
+                  <option value="+1 684">+1 684 (American Samoa)</option>
+                  <option value="+376">+376 (Andorra)</option>
+                  <option value="+244">+244 (Angola)</option>
+                  <option value="+1 264">+1 264 (Anguilla)</option>
+                  <option value="+1 268">+1 268 (Antigua and Barbuda)</option>
+                  <option value="+54">+54 (Argentina)</option>
+                  <option value="+374">+374 (Armenia)</option>
+                  <option value="+297">+297 (Aruba)</option>
+                  <option value="+247">+247 (Ascension Island)</option>
+                  <option value="+61">+61 (Australia)</option>
+                  <option value="+672 1">
+                    +672 1 (Australian Antarctic Territory)
+                  </option>
+                  <option value="+43">+43 (Austria)</option>
+                  <option value="+994">+994 (Azerbaijan)</option>
+                  <option value="+1 242">+1 242 (Bahamas)</option>
+                  <option value="+973">+973 (Bahrain)</option>
+                  <option value="+880">+880 (Bangladesh)</option>
+                  <option value="+1 246">+1 246 (Barbados)</option>
+                  <option value="+375">+375 (Belarus)</option>
+                  <option value="+32">+32 (Belgium)</option>
+                  <option value="+501">+501 (Belize)</option>
+                  <option value="+229">+229 (Benin)</option>
+                  <option value="+1 441">+1 441 (Bermuda)</option>
+                  <option value="+975">+975 (Bhutan)</option>
+                  <option value="+591">+591 (Bolivia)</option>
+                  <option value="+387">+387 (Bosnia and Herzegovina)</option>
+                  <option value="+267">+267 (Botswana)</option>
+                  <option value="+47">+47 (Bouvet Island)</option>
+                  <option value="+55">+55 (Brazil)</option>
+                  <option value="+246">
+                    +246 (British Indian Ocean Territory)
+                  </option>
+                  <option value="+1 284">
+                    +1 284 (British Virgin Islands)
+                  </option>
+                  <option value="+673">+673 (Brunei)</option>
+                  <option value="+359">+359 (Bulgaria)</option>
+                  <option value="+226">+226 (Burkina Faso)</option>
+                  <option value="+257">+257 (Burundi)</option>
+                  <option value="+855">+855 (Cambodia)</option>
+                  <option value="+237">+237 (Cameroon)</option>
+                  <option value="+1">+1 (Canada)</option>
+                  <option value="+238">+238 (Cape Verde)</option>
+                  <option value="+599">+599 (Caribbean Netherlands)</option>
+                  <option value="+1 345">+1 345 (Cayman Islands)</option>
+                  <option value="+236">+236 (Central African Republic)</option>
+                  <option value="+235">+235 (Chad)</option>
+                  <option value="+56">+56 (Chile)</option>
+                  <option value="+86">+86 (China)</option>
+                  <option value="+61 89164">
+                    +61 89164 (Christmas Island)
+                  </option>
+                  <option value="+61 89162">
+                    +61 89162 (Cocos (Keeling) Islands)
+                  </option>
+                  <option value="+57">+57 (Colombia)</option>
+                  <option value="+269">+269 (Comoros)</option>
+                  <option value="+682">+682 (Cook Islands)</option>
+                  <option value="+506">+506 (Costa Rica)</option>
+                  <option value="+385">+385 (Croatia)</option>
+                  <option value="+53">+53 (Cuba)</option>
+                  <option value="+599 9">+599 9 (Curaçao)</option>
+                  <option value="+357">+357 (Cyprus)</option>
+                  <option value="+420">+420 (Czech Republic)</option>
+                  <option value="+243">
+                    +243 (Democratic Republic of the Congo)
+                  </option>
+                  <option value="+45">+45 (Denmark)</option>
+                  <option value="+253">+253 (Djibouti)</option>
+                  <option value="+1 767">+1 767 (Dominica)</option>
+                  <option value="+1 809, +1 829, +1 849">
+                    +1 809, +1 829, +1 849 (Dominican Republic)
+                  </option>
+                  <option value="+670">+670 (East Timor)</option>
+                  <option value="+593">+593 (Ecuador)</option>
+                  <option value="+20">+20 (Egypt)</option>
+                  <option value="+503">+503 (El Salvador)</option>
+                  <option value="+240">+240 (Equatorial Guinea)</option>
+                  <option value="+291">+291 (Eritrea)</option>
+                  <option value="+372">+372 (Estonia)</option>
+                  <option value="+268">+268 (Eswatini)</option>
+                  <option value="+251">+251 (Ethiopia)</option>
+                  <option value="+500">
+                    +500 (Falkland Islands (Malvinas))
+                  </option>
+                  <option value="+298">+298 (Faroe Islands)</option>
+                  <option value="+679">+679 (Fiji)</option>
+                  <option value="+358">+358 (Finland)</option>
+                  <option value="+33">+33 (France)</option>
+                  <option value="+594">+594 (French Guiana)</option>
+                  <option value="+689">+689 (French Polynesia)</option>
+                  <option value="+262">
+                    +262 (French Southern and Antarctic Lands)
+                  </option>
+                  <option value="+241">+241 (Gabon)</option>
+                  <option value="+220">+220 (Gambia)</option>
+                  <option value="+995">+995 (Georgia)</option>
+                  <option value="+49">+49 (Germany)</option>
+                  <option value="+233">+233 (Ghana)</option>
+                  <option value="+350">+350 (Gibraltar)</option>
+                  <option value="+30">+30 (Greece)</option>
+                  <option value="+299">+299 (Greenland)</option>
+                  <option value="+1 473">+1 473 (Grenada)</option>
+                  <option value="+590">+590 (Guadeloupe)</option>
+                  <option value="+1 671">+1 671 (Guam)</option>
+                  <option value="+502">+502 (Guatemala)</option>
+                  <option value="+44 1481, +44 7781, +44 7839, +44 7911">
+                    +44 1481, +44 7781, +44 7839, +44 7911 (Guernsey)
+                  </option>
+                  <option value="+224">+224 (Guinea)</option>
+                  <option value="+245">+245 (Guinea-Bissau)</option>
+                  <option value="+592">+592 (Guyana)</option>
+                  <option value="+509">+509 (Haiti)</option>
+                  <option value="+1 672">
+                    +1 672 (Heard Island and McDonald Islands)
+                  </option>
+                  <option value="+504">+504 (Honduras)</option>
+                  <option value="+852">+852 (Hong Kong)</option>
+                  <option value="+36">+36 (Hungary)</option>
+                  <option value="+354">+354 (Iceland)</option>
+                  <option value="+91">+91 (India)</option>
+                  <option value="+62">+62 (Indonesia)</option>
+                  <option value="+98">+98 (Iran)</option>
+                  <option value="+964">+964 (Iraq)</option>
+                  <option value="+353">+353 (Ireland)</option>
+                  <option value="+44 1624, +44 7524, +44 7624, +44 7924">
+                    +44 1624, +44 7524, +44 7624, +44 7924 (Isle of Man)
+                  </option>
+                  <option value="+972">+972 (Israel)</option>
+                  <option value="+39">+39 (Italy)</option>
+                  <option value="+225">+225 (Ivory Coast)</option>
+                  <option value="+1 876">+1 876 (Jamaica)</option>
+                  <option value="+81">+81 (Japan)</option>
+                  <option value="+44 1534">+44 1534 (Jersey)</option>
+                  <option value="+962">+962 (Jordan)</option>
+                  <option value="+7 6, +7 7">+7 6, +7 7 (Kazakhstan)</option>
+                  <option value="+254">+254 (Kenya)</option>
+                  <option value="+686">+686 (Kiribati)</option>
+                  <option value="+383">+383 (Kosovo)</option>
+                  <option value="+965">+965 (Kuwait)</option>
+                  <option value="+996">+996 (Kyrgyzstan)</option>
+                  <option value="+856">+856 (Laos)</option>
+                  <option value="+371">+371 (Latvia)</option>
+                  <option value="+961">+961 (Lebanon)</option>
+                  <option value="+266">+266 (Lesotho)</option>
+                  <option value="+231">+231 (Liberia)</option>
+                  <option value="+218">+218 (Libya)</option>
+                  <option value="+423">+423 (Liechtenstein)</option>
+                  <option value="+370">+370 (Lithuania)</option>
+                  <option value="+352">+352 (Luxembourg)</option>
+                  <option value="+853">+853 (Macao)</option>
+                  <option value="+261">+261 (Madagascar)</option>
+                  <option value="+265">+265 (Malawi)</option>
+                  <option value="+60">+60 (Malaysia)</option>
+                  <option value="+960">+960 (Maldives)</option>
+                  <!-- <option value="+ -->
+                  <option value="+223">+223 (Mali)</option>
+                  <option value="+356">+356 (Malta)</option>
+                  <option value="+692">+692 (Marshall Islands)</option>
+                  <option value="+596">+596 (Martinique)</option>
+                  <option value="+222">+222 (Mauritania)</option>
+                  <option value="+230">+230 (Mauritius)</option>
+                  <option value="+262 269, +262 639">
+                    +262 269, +262 639 (Mayotte)
+                  </option>
+                  <option value="+52">+52 (Mexico)</option>
+                  <option value="+691">+691 (Micronesia)</option>
+                  <option value="+373">+373 (Moldova)</option>
+                  <option value="+377">+377 (Monaco)</option>
+                  <option value="+976">+976 (Mongolia)</option>
+                  <option value="+382">+382 (Montenegro)</option>
+                  <option value="+1 664">+1 664 (Montserrat)</option>
+                  <option value="+212">+212 (Morocco)</option>
+                  <option value="+258">+258 (Mozambique)</option>
+                  <option value="+95">+95 (Myanmar)</option>
+                  <option value="+264">+264 (Namibia)</option>
+                  <option value="+674">+674 (Nauru)</option>
+                  <option value="+977">+977 (Nepal)</option>
+                  <option value="+31">+31 (Netherlands)</option>
+                  <option value="+599">+599 (Netherlands Antilles)</option>
+                  <option value="+687">+687 (New Caledonia)</option>
+                  <option value="+64">+64 (New Zealand)</option>
+                  <option value="+505">+505 (Nicaragua)</option>
+                  <option value="+227">+227 (Niger)</option>
+                  <option value="+234">+234 (Nigeria)</option>
+                  <option value="+683">+683 (Niue)</option>
+                  <option value="+672 3">+672 3 (Norfolk Island)</option>
+                  <option value="+850">+850 (North Korea)</option>
+                  <option value="+389">+389 (North Macedonia)</option>
+                  <option value="+44 28">+44 28 (Northern Ireland)</option>
+                  <option value="+1 670">
+                    +1 670 (Northern Mariana Islands)
+                  </option>
+                  <option value="+47">+47 (Norway)</option>
+                  <option value="+968">+968 (Oman)</option>
+                  <option value="+92">+92 (Pakistan)</option>
+                  <option value="+680">+680 (Palau)</option>
+                  <option value="+970">+970 (Palestine)</option>
+                  <option value="+507">+507 (Panama)</option>
+                  <option value="+675">+675 (Papua New Guinea)</option>
+                  <option value="+595">+595 (Paraguay)</option>
+                  <option value="+51">+51 (Peru)</option>
+                  <option value="+63">+63 (Philippines)</option>
+                  <option value="+64">+64 (Pitcairn)</option>
+                  <option value="+48">+48 (Poland)</option>
+                  <option value="+351">+351 (Portugal)</option>
+                  <option value="+1 787, +1 939">
+                    +1 787, +1 939 (Puerto Rico)
+                  </option>
+                  <option value="+974">+974 (Qatar)</option>
+                  <option value="+262">+262 (Réunion)</option>
+                  <option value="+242">+242 (Republic of the Congo)</option>
+                  <option value="+40">+40 (Romania)</option>
+                  <option value="+7">+7 (Russia)</option>
+                  <option value="+250">+250 (Rwanda)</option>
+                  <option value="+590">+590 (Saint Barthélemy)</option>
+                  <option value="+290">+290 (Saint Helena)</option>
+                  <option value="+1 869">+1 869 (Saint Kitts and Nevis)</option>
+                  <option value="+1 758">+1 758 (Saint Lucia)</option>
+                  <option value="+590">
+                    +590 (Saint Martin (French part))
+                  </option>
+                  <option value="+508">+508 (Saint Pierre and Miquelon)</option>
+                  <option value="+1 784">
+                    +1 784 (Saint Vincent and the Grenadines)
+                  </option>
+                  <option value="+685">+685 (Samoa)</option>
+                  <option value="+378">+378 (San Marino)</option>
+                  <option value="+239">+239 (Sao Tome and Principe)</option>
+                  <option value="+966">+966 (Saudi Arabia)</option>
+                  <option value="+221">+221 (Senegal)</option>
+                  <option value="+381">+381 (Serbia)</option>
+                  <option value="+248">+248 (Seychelles)</option>
+                  <option value="+232">+232 (Sierra Leone)</option>
+                  <option value="+65">+65 (Singapore)</option>
+                  <option value="+421">+421 (Slovakia)</option>
+                  <option value="+386">+386 (Slovenia)</option>
+                  <option value="+677">+677 (Solomon Islands)</option>
+                  <option value="+252">+252 (Somalia)</option>
+                  <option value="+27">+27 (South Africa)</option>
+                  <option value="+500">
+                    +500 (South Georgia and the South Sandwich Islands)
+                  </option>
+                  <option value="+82">+82 (South Korea)</option>
+                  <option value="+211">+211 (South Sudan)</option>
+                  <option value="+34">+34 (Spain)</option>
+                  <option value="+94">+94 (Sri Lanka)</option>
+                  <option value="+249">+249 (Sudan)</option>
+                  <option value="+597">+597 (Suriname)</option>
+                  <option value="+47 79">
+                    +47 79 (Svalbard and Jan Mayen)
+                  </option>
+                  <option value="+46">+46 (Sweden)</option>
+                  <option value="+41">+41 (Switzerland)</option>
+                  <option value="+963">+963 (Syria)</option>
+                  <option value="+886">+886 (Taiwan)</option>
+                  <option value="+992">+992 (Tajikistan)</option>
+                  <option value="+255">+255 (Tanzania)</option>
+                  <option value="+66">+66 (Thailand)</option>
+                  <option value="+228">+228 (Togo)</option>
+                  <option value="+690">+690 (Tokelau)</option>
+                  <option value="+676">+676 (Tonga)</option>
+                  <option value="+1 868">+1 868 (Trinidad and Tobago)</option>
+                  <option value="+216">+216 (Tunisia)</option>
+                  <option value="+90">+90 (Turkey)</option>
+                  <option value="+993">+993 (Turkmenistan)</option>
+                  <option value="+1 649">
+                    +1 649 (Turks and Caicos Islands)
+                  </option>
+                  <option value="+688">+688 (Tuvalu)</option>
+                  <option value="+256">+256 (Uganda)</option>
+                  <option value="+380">+380 (Ukraine)</option>
+                  <option value="+971">+971 (United Arab Emirates)</option>
+                  <option value="+44">+44 (United Kingdom)</option>
+                  <option value="+1">+1 (United States)</option>
+                  <option value="+246">
+                    +246 (United States Minor Outlying Islands)
+                  </option>
+                  <option value="+598">+598 (Uruguay)</option>
+                  <option value="+998">+998 (Uzbekistan)</option>
+                  <option value="+678">+678 (Vanuatu)</option>
+                  <option value="+379">+379 (Vatican City)</option>
+                  <option value="+58">+58 (Venezuela)</option>
+                  <option value="+84">+84 (Vietnam)</option>
+                  <option value="+1 340">+1 340 (Virgin Islands, U.S.)</option>
+                  <option value="+681">+681 (Wallis and Futuna)</option>
+                  <option value="+212">+212 (Western Sahara)</option>
+                  <option value="+967">+967 (Yemen)</option>
+                  <option value="+260">+260 (Zambia)</option>
+                  <option value="+263">+263 (Zimbabwe)</option>
+                </select>
+                <input
+                  type="text"
+                  class="input-box mobile-number"
+                  name="mobile"
+                  placeholder="Mobile Number"
+                  maxlength="10"
+                  pattern="\d{10}"
+                  required
+                />
+              </div>
+              <select class="input-box dropdown" name="studyingIn" required>
+                <option value="" disabled selected>Studying In</option>
+                <option value="12th">12th</option>
+                <option value="11th">11th</option>
+                <option value="College">College</option>
+              </select>
 
-                <!-- Register Form -->
-                <div class="card-back">
-                    <h2>REGISTER</h2>
-                    <form id="signupForm">
-                        <input type="text" class="input-box" name="name" placeholder="Full Name" required>
-                        <input type="email" class="input-box" name="email" placeholder="Email" required>
-                        <div class="phone-container">
-                            <select class="input-box dropdown" name="countryCode" required>
-                                <option value="+1">+1 (US)</option>
-                                <option value="+91">+91 (India)</option>
-                                <option value="+44">+44 (UK)</option>
-                                <!-- Add other country codes as needed -->
-                            </select>
-                            <input type="text" class="input-box mobile-number" name="mobile" placeholder="Mobile Number" maxlength="10" pattern="\d{10}" required>
-                        </div>
-                        <select class="input-box  dropdown      " name="studyingIn" required>
-                            <option value="" disabled selected>Studying In</option>
-                            <option value="12th">12th</option>
-                            <option value="11th">11th</option>
-                            <option value="College">College</option>
-                        </select>
-                    
+              <input
+                type="password"
+                class="input-box"
+                id="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+              <div class="strength-indicator">
+                <span id="strengthText">Strength: </span>
+                <div id="strengthMeter" class="strength-meter"></div>
+              </div>
 
-                        
-                            <input type="password" class="input-box" id="password" name="password" placeholder="Password" required>
-                            <div class="strength-indicator">
-                                <span id="strengthText">Strength: </span>
-                                <div id="strengthMeter" class="strength-meter"></div>
-                            </div>
-                        
-                        
-                        <button type="submit" class="submit-btn_login">Submit</button>
-                        <input type="checkbox"><span>Remember Me</span>
-                    </form>
-                    <button type="button" class="btn" onclick="openLogin()">I've an account</button> 
-                </div>
+              <button type="submit" class="submit-btn_login">Submit</button>
+              <input type="checkbox" /><span>Remember Me</span>
+            </form>
+            <button type="button" class="btn" onclick="openLogin()">
+              I've an account
+            </button>
+          </div>
 
-                <!-- Forgot Password Form (hidden by default) -->
-                <div class="forgot-password-form" id="forgotPasswordForm" style="display: none;">
-                    <h2>Forgot Password</h2>
-                    <form id="forgotForm">
-                        <input type="email" class="input-box" name="email" placeholder="Enter your Email" required>
-                        <button type="submit" class="submit-btn_login">Send OTP</button>
-                    </form>
-                    <button type="button" class="btn" onclick="openLogin()">Back to Login</button>
-                </div>
-                
-            </div>
+          <!-- Forgot Password Form (hidden by default) -->
+          <div
+            class="forgot-password-form"
+            id="forgotPasswordForm"
+            style="display: none"
+          >
+            <h2>Forgot Password</h2>
+            <form id="forgotForm">
+              <input
+                type="email"
+                class="input-box"
+                name="email"
+                placeholder="Enter your Email"
+                required
+              />
+              <button type="submit" class="submit-btn_login">Send OTP</button>
+            </form>
+            <button type="button" class="btn" onclick="openLogin()">
+              Back to Login
+            </button>
+          </div>
         </div>
-        <div id="userDetails" style="display: none;"></div>
+      </div>
+      <div id="userDetails" style="display: none"></div>
     </div>
 
     <script>
-        document.getElementById("password").addEventListener("input", checkPasswordStrength);
+      document
+        .getElementById("password")
+        .addEventListener("input", checkPasswordStrength);
 
-function checkPasswordStrength() {
-    const password = document.getElementById("password").value;
-    const strengthMeter = document.getElementById("strengthMeter");
-    const strengthText = document.getElementById("strengthText");
+      function checkPasswordStrength() {
+        const password = document.getElementById("password").value;
+        const strengthMeter = document.getElementById("strengthMeter");
+        const strengthText = document.getElementById("strengthText");
 
-    let strength = 0;
+        let strength = 0;
 
-    // Check password strength criteria
-    if (password.length >= 8) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[\W_]/.test(password)) strength++;
+        // Check password strength criteria
+        if (password.length >= 8) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[\W_]/.test(password)) strength++;
 
-    // Remove previous strength classes
-    strengthMeter.classList.remove("weak", "medium", "strong");
+        // Remove previous strength classes
+        strengthMeter.classList.remove("weak", "medium", "strong");
 
-    // Apply the appropriate class based on strength
-    switch (strength) {
-        case 0:
+        // Apply the appropriate class based on strength
+        switch (strength) {
+          case 0:
             strengthMeter.classList.add("weak");
             strengthText.textContent = "Strength: Very Weak";
             break;
-        case 1:
+          case 1:
             strengthMeter.classList.add("weak");
             strengthText.textContent = "Strength: Weak";
             break;
-        case 2:
+          case 2:
             strengthMeter.classList.add("medium");
             strengthText.textContent = "Strength: Medium";
             break;
-        case 3:
+          case 3:
             strengthMeter.classList.add("strong");
             strengthText.textContent = "Strength: Strong";
             break;
-        case 4:
+          case 4:
             strengthMeter.classList.add("strong");
             strengthText.textContent = "Strength: Very Strong";
             break;
-    }
-}
-
-
-
-        var card = document.getElementById("card");
-        var forgotPasswordForm = document.getElementById("forgotPasswordForm");
-
-        function openRegister() {
-            card.style.transform = "rotateY(-180deg)";
-            forgotPasswordForm.style.display = "none"; // Hide forgot password form if moving to register
         }
+      }
 
-        function openLogin() {
-            card.style.transform = "rotateY(0deg)";
-            forgotPasswordForm.style.display = "none"; // Hide forgot password form when returning to login
-        }
+      var card = document.getElementById("card");
+      var forgotPasswordForm = document.getElementById("forgotPasswordForm");
 
-        function openForgotPassword() {
-            forgotPasswordForm.style.display = "block"; // Show forgot password form
-            card.style.transform = "none"; // Reset any rotation
-        }
+      function openRegister() {
+        card.style.transform = "rotateY(-180deg)";
+        forgotPasswordForm.style.display = "none"; // Hide forgot password form if moving to register
+      }
 
-        // Handle signup form submission
-        document.getElementById("signupForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
+      function openLogin() {
+        card.style.transform = "rotateY(0deg)";
+        forgotPasswordForm.style.display = "none"; // Hide forgot password form when returning to login
+      }
 
-            try {
-                const response = await fetch('http://localhost:5000/signup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
+      function openForgotPassword() {
+        forgotPasswordForm.style.display = "block"; // Show forgot password form
+        card.style.transform = "none"; // Reset any rotation
+      }
 
-                const result = await response.json();
-                alert(result.message);
+      // Handle signup form submission
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          const data = Object.fromEntries(formData.entries());
 
-                if (response.ok) {
-                    openLogin();
-                }
-            } catch (error) {
-                console.error('Error during signup:', error);
-                alert('An error occurred during signup. Please try again.');
+          try {
+            const response = await fetch("http://localhost:5000/signup", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            alert(result.message);
+
+            if (response.ok) {
+              openLogin();
             }
+          } catch (error) {
+            console.error("Error during signup:", error);
+            alert("An error occurred during signup. Please try again.");
+          }
         });
-        
-        async function checkUserSession() {
+
+      async function checkUserSession() {
         try {
-            const response = await fetch('http://localhost:5000/user-session');
-            const { loggedIn, user } = await response.json();
+          const response = await fetch("http://localhost:5000/user-session");
+          const { loggedIn, user } = await response.json();
 
-            if (loggedIn) {
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('userDetails').innerText = `Welcome, ${user.name}`;
-                document.getElementById('userDetails').style.display = 'block';
-            }
+          if (loggedIn) {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById(
+              "userDetails"
+            ).innerText = `Welcome, ${user.name}`;
+            document.getElementById("userDetails").style.display = "block";
+          }
         } catch (error) {
-            console.error('Error checking user session:', error);
+          console.error("Error checking user session:", error);
         }
-    }
+      }
 
-    document.addEventListener('DOMContentLoaded', checkUserSession);
+      document.addEventListener("DOMContentLoaded", checkUserSession);
 
-        // Handle login form submission
-        document.getElementById("loginForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
+      // Handle login form submission
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          const data = Object.fromEntries(formData.entries());
 
-            try {
-                const response = await fetch('http://localhost:5000/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
+          try {
+            const response = await fetch("http://localhost:5000/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
 
-                const result = await response.json();
+            const result = await response.json();
 
-
-                if (response.ok) {
-                    alert(result.message || "Login successful!"); // Show success message
-                    localStorage.setItem('user', JSON.stringify(result.user)); // Save user info
-                    window.location.href = "index.html"; // Adjust the URL as needed
-                }
-                else{
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error during login:', error);
-                alert('An error occurred during login. Please try again.');
+            if (response.ok) {
+              alert(result.message || "Login successful!"); // Show success message
+              localStorage.setItem("user", JSON.stringify(result.user)); // Save user info
+              window.location.href = "index.html"; // Adjust the URL as needed
+            } else {
+              alert(result.message);
             }
+          } catch (error) {
+            console.error("Error during login:", error);
+            alert("An error occurred during login. Please try again.");
+          }
         });
-        document.addEventListener("DOMContentLoaded", () => {
-    const logoutButton = document.getElementById('logout');
+      document.addEventListener("DOMContentLoaded", () => {
+        const logoutButton = document.getElementById("logout");
 
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            localStorage.removeItem('user'); // Clear user session
-            window.location.href = 'index.html'; // Reload to update UI
-        });
-    }
-});
+        if (logoutButton) {
+          logoutButton.addEventListener("click", () => {
+            localStorage.removeItem("user"); // Clear user session
+            window.location.href = "index.html"; // Reload to update UI
+          });
+        }
+      });
 
-        // Handle forgot password form submission
-        document.getElementById("forgotForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
+      // Handle forgot password form submission
+      document
+        .getElementById("forgotForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          const data = Object.fromEntries(formData.entries());
 
-            try {
-                const response = await fetch('http://localhost:5000/forgot-password', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
+          try {
+            const response = await fetch(
+              "http://localhost:5000/forgot-password",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+              }
+            );
 
-                const result = await response.json();
-                alert(result.message);
+            const result = await response.json();
+            alert(result.message);
 
-                if (response.ok) {
-                    openLogin(); // Go back to login form after OTP is sent
-                }
-            } catch (error) {
-                console.error('Error during forgot password request:', error);
-                alert('An error occurred while sending OTP. Please try again.');
+            if (response.ok) {
+              openLogin(); // Go back to login form after OTP is sent
             }
+          } catch (error) {
+            console.error("Error during forgot password request:", error);
+            alert("An error occurred while sending OTP. Please try again.");
+          }
+
+          document
+            .getElementById("countryDropdown")
+            .addEventListener("keydown", function (e) {
+              var letter = e.key.toLowerCase(); // Get the pressed letter
+              var options = this.getElementsByTagName("option"); // Get all options
+              for (var i = 0; i < options.length; i++) {
+                var countryName =
+                  options[i].textContent || options[i].innerText;
+                // Check if the country name starts with the letter pressed
+                if (countryName.toLowerCase().startsWith(letter)) {
+                  this.selectedIndex = i; // Set the matching option as selected
+                  break; // Exit the loop once the match is found
+                }
+              }
+            });
         });
     </script>
-    
-</body>
+  </body>
 </html>
