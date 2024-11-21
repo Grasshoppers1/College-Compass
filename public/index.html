@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
         logoutLink.addEventListener('click', () => {
             localStorage.removeItem('user');
             alert('Logged out successfully');
-            window.location.href = 'login.html'; // Redirect to login page
+            // window.location.href = 'login.html'; // Redirect to login page
         });
     } else {
         userStatus.innerText = "You are not logged in.";
