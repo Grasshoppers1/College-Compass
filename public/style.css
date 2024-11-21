@@ -646,6 +646,10 @@ h1{
     font-size: 14px; /* Increased font size for readability */
     text-align: left; /* Aligned text to left for a more natural input flow */
     transition: all 0.3s ease; /* Smooth transition effect */
+    -webkit-appearance: none; /* Removes default browser styles for dropdowns */
+    -moz-appearance: none;
+    appearance: none;
+    
 }
 
 .input-box:focus {
@@ -664,6 +668,63 @@ h1{
 .input-box:hover {
     background: rgba(255, 255, 255, 0.15); /* Slightly darkens on hover */
     border: 1px solid rgba(255, 255, 255, 0.8); /* Brighter border on hover */
+}
+
+
+select.input-box option {
+    background: #fff; /* White background for options */
+    color: #000; /* Black text for options */
+    padding: 5px; /* Add padding for better readability */
+}
+.dropdown {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>'); /* Add dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 15px center; /* Position the arrow */
+    background-size: 12px; /* Adjust size of the arrow */
+    padding-right: 40px; /* Adjust padding to make room for the arrow */
+}
+
+.dropdown:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.dropdown:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Option styles */
+.dropdown option {
+    background: #fff;
+    color: #000;
+    padding: 5px;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu */
+.dropdown-content.show {
+    display: block;
 }
 
 /* button{

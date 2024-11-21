@@ -38,7 +38,7 @@
                         <input type="text" class="input-box" name="name" placeholder="Full Name" required>
                         <input type="email" class="input-box" name="email" placeholder="Email" required>
                         <div class="phone-container">
-                            <select class="input-box country-code" name="countryCode" required>
+                            <select class="input-box dropdown" name="countryCode" required>
                                 <option value="+1">+1 (US)</option>
                                 <option value="+91">+91 (India)</option>
                                 <option value="+44">+44 (UK)</option>
@@ -46,7 +46,7 @@
                             </select>
                             <input type="text" class="input-box mobile-number" name="mobile" placeholder="Mobile Number" maxlength="10" pattern="\d{10}" required>
                         </div>
-                        <select class="input-box country-code       " name="studyingIn" required>
+                        <select class="input-box  dropdown      " name="studyingIn" required>
                             <option value="" disabled selected>Studying In</option>
                             <option value="12th">12th</option>
                             <option value="11th">11th</option>
@@ -80,6 +80,7 @@
                 
             </div>
         </div>
+        <div id="userDetails" style="display: none;"></div>
     </div>
 
     <script>
@@ -170,6 +171,23 @@ function checkPasswordStrength() {
                 alert('An error occurred during signup. Please try again.');
             }
         });
+        
+        async function checkUserSession() {
+        try {
+            const response = await fetch('http://localhost:5000/user-session');
+            const { loggedIn, user } = await response.json();
+
+            if (loggedIn) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('userDetails').innerText = `Welcome, ${user.name}`;
+                document.getElementById('userDetails').style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error checking user session:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', checkUserSession);
 
         // Handle login form submission
         document.getElementById("loginForm").addEventListener("submit", async function(event) {
@@ -185,20 +203,31 @@ function checkPasswordStrength() {
                 });
 
                 const result = await response.json();
-                alert(result.message);
+
 
                 if (response.ok) {
-                    localStorage.setItem('user', JSON.stringify(data.user)); // Save user info
+                    alert(result.message || "Login successful!"); // Show success message
+                    localStorage.setItem('user', JSON.stringify(result.user)); // Save user info
                     window.location.href = "index.html"; // Adjust the URL as needed
                 }
                 else{
-                    alert(data.message);
+                    alert(result.message);
                 }
             } catch (error) {
                 console.error('Error during login:', error);
                 alert('An error occurred during login. Please try again.');
             }
         });
+        document.addEventListener("DOMContentLoaded", () => {
+    const logoutButton = document.getElementById('logout');
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            localStorage.removeItem('user'); // Clear user session
+            window.location.href = 'index.html'; // Reload to update UI
+        });
+    }
+});
 
         // Handle forgot password form submission
         document.getElementById("forgotForm").addEventListener("submit", async function(event) {

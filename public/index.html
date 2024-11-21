@@ -25,6 +25,14 @@
                 <li><a href="contact.html">Contact</a></li>
                 <li id="auth-link"><a href="login.html">Login</a></li>
             </ul>
+            <div id="userStatus" style="display: none;"></div> <!-- User status message -->
+    <div id="userDropdown" style="display: none;">
+        <button class="dropdown" onclick="toggleDropdown()">User Menu</button>
+        <div id="dropdownMenu" class="dropdown-content" style="display: none;">
+            <a href="#" id="profileLink">View Profile</a>
+            <a href="#" id="logoutLink">Logout</a>
+        </div>
+    </div>
         </div>
     </nav>
     
@@ -240,32 +248,76 @@
         <br class="copyright"><br>Made by Students</br>
             <br> Made for students </br>
             </p>
+            <p id="userStatus"></p>
     </div>
-
+    
 </section>
 <script>
-    // Get user data from localStorage
+document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem('user'));
-
-    const authLink = document.getElementById('auth-link');
+    const userStatus = document.getElementById('userStatus');
+    const userDropdown = document.getElementById('userDropdown');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const logoutLink = document.getElementById('logoutLink');
+    
     if (user) {
-        // User is logged in, display user menu
-        authLink.innerHTML = `
-            <div class="user-menu">
-                <span>Hello, ${user.name}</span>
-                <a href="#" id="logout">Logout</a>
-            </div>
-        `;
-
-        // Add logout functionality
-        document.getElementById('logout').addEventListener('click', () => {
-            localStorage.removeItem('user'); // Clear user data
-            window.location.reload(); // Reload page to update navbar
+        // Update user status and show the dropdown
+        userStatus.innerText = `Logged in as: ${user.name}`;
+        userStatus.style.display = 'block'; // Ensure user status is shown
+        
+        userDropdown.style.display = 'block'; // Show the dropdown menu
+        
+        logoutLink.addEventListener('click', () => {
+            localStorage.removeItem('user');
+            alert('Logged out successfully');
+            window.location.href = 'login.html'; // Redirect to login page
         });
     } else {
-        // User not logged in, keep Login link
-        authLink.innerHTML = `<a href="login.html">Login</a>`;
+        userStatus.innerText = "You are not logged in.";
+        window.location.href = 'login.html'; // Redirect to login page if not logged in
     }
+});
+
+// Function to toggle the dropdown menu visibility
+function toggleDropdown() {
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+}
+    // Get user data from localStorage
+   
+    
+    
+    // if (user) {
+    //     // User is logged in, display user menu
+    //     // authLink.innerHTML = `
+    //     //     <div class="user-menu">
+    //     //         <span>Hello, ${user.name}</span>
+    //     //         <a href="#" id="logout">Logout</a>
+    //     //     </div>
+    //     // `;
+    //     document.getElementById('userDetails').innerText = `Welcome, ${user.name}`;
+    //         document.getElementById('userDetails').style.display = 'block';
+    //         document.getElementById('loginForm').style.display = 'none';
+    //         document.getElementById('userDropdown').style.display = 'block';
+    //         document.getElementById('logoutLink').addEventListener('click', function() {
+    //         localStorage.removeItem('user');
+    //         alert('Logged out successfully');
+    //         window.location.href = 'login.html'; // Redirect to login page
+    //     });
+    //     } else {
+
+
+    //     // Add logout functionality
+    //     // document.getElementById('logout').addEventListener('click', () => {
+    //     //     localStorage.removeItem('user'); // Clear user data
+    //     //     window.location.reload(); // Reload page to update navbar
+    //     // });
+    
+    //     // User not logged in, keep Login link
+    //     // authLink.innerHTML = `<a href="login.html">Login</a>`;
+    //     window.location.href = 'login.html';
+    // }
+
 </script>
 
 

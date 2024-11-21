@@ -19,7 +19,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const sessionStore = MongoStore.create({
+const sessionStore = MongoStore.create({    
     mongoUrl: 'mongodb://localhost:27017/Website-Users',
     collectionName: 'sessions'
 });
@@ -124,13 +124,28 @@ const AlreadyUserSchema = new mongoose.Schema({
 });
 const AlreadyUser = userDb.model('AlreadyUser', AlreadyUserSchema, 'Already-Users');
 
+
+app.get('/user-info', (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: 'Unauthorized: Please log in' });
+    }
+
+    res.json({ user: req.session.user });
+});
+app.get('/user-session', (req, res) => {
+    if (req.session.user) {
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        res.json({ loggedIn: false });
+    }
+});
+
 // Prediction route with search count limit
 app.post('/predict', async (req, res) => {
-    if (!req.session.searchCount) {
-        req.session.searchCount = 0;
-    }
-    req.session.searchCount += 1;
-    console.log('Current search count:', req.session.searchCount);
+    if (!req.session.user) {
+    if (!req.session.searchCount)  req.session.searchCount = 0;
+    req.session.searchCount = (req.session.searchCount || 0) + 1;
+    console.log(`Current search count for unlogged user: ${req.session.searchCount}`);
 
     if (req.session.searchCount > 3) {
         console.log('Search limit exceeded. Ending session.');
@@ -139,6 +154,7 @@ app.post('/predict', async (req, res) => {
         });
         return res.status(403).json({ message: 'Please log in to continue searching.' });
     }
+}
 
     const { first_name, last_name, gender, email, phone,category, branch, jee_rank,latitude, longitude,locationPermissionGranted } = req.body;
     try {
@@ -266,11 +282,14 @@ app.post('/login', async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
-        req.session.user = { id: user._id, name: user.name }; // For sessions
+        req.session.user = { id: user._id, name: user.name,email:user.email }; // For sessions
          
         req.session.searchCount = 0;  // Reset search count on login
         console.log('Login successful. Session ID:', req.sessionID);
-        res.json({ success: true, user: { name: user.name } });
+        res.json(
+            {
+                 success: true, user: { name: user.name,email:user.email } 
+                });
        
     } catch (error) {
         console.error('Error during login:', error);
@@ -315,6 +334,7 @@ app.get('/college-details', async (req, res) => {
         res.status(500).send({ error: 'Server error.' });
     }
 });
+
 
 
 

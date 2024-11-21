@@ -192,7 +192,14 @@
      let latitude = null;
        let longitude = null;
        let locationDenied = false;
-       window.onload = function () {
+       
+      
+        window.onload = function () {
+            const user = localStorage.getItem('user');
+    // Check if search count exists in localStorage
+    if (localStorage.getItem('searchCount') === null) {
+        localStorage.setItem('searchCount', '0'); // Initialize searchCount to 0 for new users
+    }
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -213,6 +220,8 @@
                 
             }
         };
+
+        
     let a=false;
    
        async function submitForm() {
@@ -243,6 +252,24 @@
 
            console.log('Sending data:', data); // Debugging log
 
+           
+    const user = localStorage.getItem('user');
+    const isLoggedIn = user !== null;
+
+    if (!isLoggedIn) {
+        let searchCount = localStorage.getItem('searchCount') || 0;
+        searchCount = parseInt(searchCount) + 1;
+
+        if (searchCount > 3) {
+            alert('You have exceeded the limit. Please log in to continue.');
+           showLoginPrompt(); // Redirect to login page
+            return;
+        }
+
+        localStorage.setItem('searchCount', searchCount);
+    }
+           
+
            try {
                const response = await fetch('http://localhost:5000/predict', {
                    method: 'POST',
@@ -250,7 +277,7 @@
                        'Content-Type': 'application/json',
                    },
                    body: JSON.stringify(data),
-                   credentials: 'include' // Ensure session cookie is included in the request
+                  // credentials: 'include' // Ensure session cookie is included in the request
                });
 
                if (response.ok) {
