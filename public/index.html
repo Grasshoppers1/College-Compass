@@ -25,20 +25,21 @@
                 <li><a href="contact.html">Contact</a></li>
                 <li id="auth-link"><a href="login.html">Login</a></li>
             </ul>
-            <div id="userStatus" style="display: none;"></div> <!-- User status message -->
-    <div id="userDropdown" style="display: none;">
-        <button class="dropdown" onclick="toggleDropdown()">User Menu</button>
-        <div id="dropdownMenu" class="dropdown-content" style="display: none;">
-            <a href="#" id="profileLink">View Profile</a>
-            <a href="#" id="logoutLink">Logout</a>
         </div>
-    </div>
+
+        <!-- User Circle -->
+        <div id="userCircle" class="user-circle" style="display: none;">
+            <div class="circle" id="userInitial"></div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#" id="profileLink">View Profile</a>
+                <a href="#" id="logoutLink">Logout</a>
+            </div>
         </div>
     </nav>
     
     
        <div class="text-box">
-        <h1>A Key to Future</h1>
+        <h1>Key to Future</h1>
          <a href="about.html" class="hero-btn">Know more about us!</a>
     </div>
    </section>
@@ -106,7 +107,7 @@
 
 <!-- -------------Predictor--------- -->
 <section class="pred" id="predictor">
-    <h1>Predict Your College</h1>
+    <h1>Check Your Eligibility For Your Dream College</h1>
     <div class="row2">
         
     <div class="col-p">
@@ -117,7 +118,7 @@
             • To publicise colleges that are not so high up in the pecking order.<br> <br>
             • To help make the admission process easier.<br> <br>
             • To eliminate admission bottlenecks and simplify the operation with custom inputs. <br><br></p>
-        <a href="predictor.html" class="hero-btn">PREDICT NOW</a>
+        <a href="predictor.html" class="hero-btn">CHECK OUT NOW</a>
         </div>
         <div class="col-p">
             <img src="images/prediction.png">
@@ -131,56 +132,51 @@
 
 <!-- ------------steps--------------- -->
      
-<section class="steps">
-    <h1> How the Predictor works?</h1>
-       <div class="workcard_container">
-             
-    <div class="workcard">
-       <div class="imgbox">
-           <img src="images/loginwithus.jpg"/>
-      </div>
-       <div class="content">
-           <h2>Step I</h2>
-           <p>Access the Predictor
-           </p>
-      </div>
-   </div>
-   <div class="workcard">
-       <div class="imgbox">
-           <img src="images/pcdetails.jpg"/>
-   
-       </div>
-       <div class="content">
-           <h2>Step II</h2>
-           <p>Enter personal details.
-           </p>
-      </div>
-   </div>
-   <div class="workcard">
-       <div class="imgbox">
-           <img src="images/lg.jpg"/>
-   
-       </div>
-       <div class="content">
-           <h2>Step III</h2>
-           <p>Enter educational details.
-           </p>
-      </div>
-   </div>
-   <div class="workcard">
-       <div class="imgbox">
-           <img src="images/search.jpg"/>
-   
-       </div>
-       <div class="content">
-           <h2>Step IV</h2>
-           <p>Find your match.
-           </p>
-      </div>
-   </div>
-   </div>
-   
-   </section>
+<section class="steps"> 
+    <h1> How does the Finder work?</h1>
+    <div class="workcard_container">
+        <div class="workcard">
+            <div class="imgbox">
+                <img src="images/loginwithus.jpg" alt="Step I"/>
+            </div>
+            <div class="content">
+                <h2>Step I</h2>
+                <p>Access the Finder</p>
+            </div>
+        </div>
+
+        <div class="workcard">
+            <div class="imgbox">
+                <img src="images/pcdetails.jpg" alt="Step II"/>
+            </div>
+            <div class="content">
+                <h2>Step II</h2>
+                <p>Enter personal details.</p>
+            </div>
+        </div>
+
+        <div class="workcard">
+            <div class="imgbox">
+                <img src="images/lg.jpg" alt="Step III"/>
+            </div>
+            <div class="content">
+                <h2>Step III</h2>
+                <p>Enter educational details.</p>
+            </div>
+        </div>
+
+        <div class="workcard">
+            <div class="imgbox">
+                <img src="images/search.jpg" alt="Step IV"/>
+            </div>
+            <div class="content">
+                <h2>Step IV</h2>
+                <p>Find your match.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 
 
@@ -190,8 +186,9 @@
 
 
 <section class="cta">
-    <h1>For more Details<br>Anywhere from 
-        the world</h1>
+    <h1>Need Assistance?<br>Reach Us Anytime,
+        <br> Anywhere from 
+        the World</h1>
         <a href="contact.html" class="hero-btn">CONTACT US</a>
 
 </section>
@@ -234,7 +231,7 @@
              <div class="col-md-3">
                  <ul>
                 <h4>Other</h4>
-                <li><a href="predictor.html"><p>Predictor</p></a></li>
+                <li><a href="predictor.html"><p>Finder</p></a></li>
                     <li><a href="about.html"><p>About Us</p></a></li>
                 </ul>
              </div>
@@ -255,28 +252,47 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem('user'));
-    const userStatus = document.getElementById('userStatus');
-    const userDropdown = document.getElementById('userDropdown');
+    const userCircle = document.getElementById('userCircle');
+    const userInitial = document.getElementById('userInitial');
+    const authLink = document.getElementById('auth-link');
     const dropdownMenu = document.getElementById('dropdownMenu');
     const logoutLink = document.getElementById('logoutLink');
-    
+
     if (user) {
-        // Update user status and show the dropdown
-        userStatus.innerText = `Logged in as: ${user.name}`;
-        userStatus.style.display = 'block'; // Ensure user status is shown
-        
-        userDropdown.style.display = 'block'; // Show the dropdown menu
-        
+        // Show the user's initial in the circle
+        const initial = user.name.charAt(0).toUpperCase();
+        userInitial.innerText = initial;
+
+        // Hide the "Login" link and show the user circle
+        authLink.style.display = 'none';
+        userCircle.style.display = 'inline-block';
+
+        // Toggle dropdown menu visibility on click
+        userCircle.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent click event from propagating to the document
+            const isVisible = dropdownMenu.style.display === 'block';
+            dropdownMenu.style.display = isVisible ? 'none' : 'block'; // Toggle visibility
+        });
+
+        // Close the dropdown menu if the user clicks outside of it
+        document.addEventListener('click', () => {
+            dropdownMenu.style.display = 'none';
+        });
+
+        // Logout functionality
         logoutLink.addEventListener('click', () => {
             localStorage.removeItem('user');
             alert('Logged out successfully');
-            // window.location.href = 'login.html'; // Redirect to login page
+            window.location.href = 'login.html'; // Redirect to login page
         });
     } else {
-        userStatus.innerText = "You are not logged in.";
-        window.location.href = 'login.html'; // Redirect to login page if not logged in
+        // No user is logged in, ensure "Login" is visible
+        authLink.style.display = 'inline-block';
+        userCircle.style.display = 'none';
     }
 });
+
+
 
 // Function to toggle the dropdown menu visibility
 function toggleDropdown() {

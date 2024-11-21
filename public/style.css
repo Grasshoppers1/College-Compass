@@ -197,99 +197,114 @@ p {
   font-size: 20px;
 }
 
-/* /-------- steps-----/ */
+/* Center the steps section and add some padding */
 .steps {
-  align-items: center;
+  display: flex;
   justify-content: center;
-  /* display: flex; */
-  padding: 100px;
+  align-items: center;
+  padding: 50px 20px;
   background-color: #03989e;
+  min-height: 100vh;
+  flex-direction: column;
 }
+
+/* Heading for steps */
 .steps h1 {
   font-weight: 800;
-  font-size: 40px;
+  font-size: 36px; /* Adjusted size for better visibility */
   color: white;
-}
-h1 {
-  width: 80%;
-  margin: auto;
   text-align: center;
-  font-size: 36px;
-  font-weight: 600;
-  padding-bottom: 50px;
+  margin-bottom: 40px; /* Adjust spacing below the heading */
 }
+
+/* Container for the workcards */
 .workcard_container {
-  position: relative;
-  width: 1000px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  padding: 180px;
+  gap: 30px; /* Adds space between cards */
+  padding: 20px;
 }
+
+/* Each workcard */
 .workcard_container .workcard {
   position: relative;
-  max-width: 200px;
-  height: 100px;
+  width: 220px; /* Adjusted width to be more proportional */
+  height: 320px; /* Increased height for better display */
   box-shadow: 0px 5px 20px rgb(0, 0, 0, 0.5);
-  transition: 0.3s ease-in-out;
-
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px 15px;
-  background: #fff;
   background: #faae42;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  transition: 0.3s ease-in-out;
   cursor: pointer;
-  border-radius: 10px;
-}
-.workcard:hover {
-  height: 250px;
-  border: 1px solid #ffffff;
-  background: #ffffff;
+  overflow: hidden; /* Prevents content from overflowing */
 }
 
+/* Image inside the workcard */
 .workcard_container .workcard .imgbox {
-  position: relative;
-  width: 80%;
-  height: 80%;
-
-  z-index: 99;
-  top: -60px;
-  left: 20px;
+  width: 80%; /* Adjusted image width */
+  height: 60%; /* Adjusted height */
+  margin-bottom: 15px; /* Adds space between image and text */
 }
+
 .workcard_container .workcard .imgbox img {
   max-width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image scales properly without distortion */
   border-radius: 10px;
   box-shadow: 0px 5px 20px rgb(0, 0, 0, 0.5);
 }
+
+/* Content inside the workcard */
 .workcard_container .workcard .content {
-  position: relative;
-  margin-top: -80px;
-
-  padding: 10px 15px;
   text-align: center;
-
   color: #333;
-  visibility: hidden;
-  opacity: 0;
-  transition: 0.3s ease-in-out;
+  visibility: visible; /* Make sure content is always visible */
+  opacity: 1; /* Ensure content is fully visible */
 }
-.workcard:hover > .content {
-  visibility: visible;
-  opacity: 1;
-  margin-top: -40px;
-  transition-delay: 0.3s;
-}
-.workcard_container p {
-  font-size: 20px;
-  font-weight: 100px;
+
+/* Title for each step inside the content */
+.workcard_container .workcard .content h2 {
   color: #012c6d;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px; /* Reduces space below the step title */
 }
-.content h2 {
+
+/* Paragraph text inside each step */
+.workcard_container .workcard .content p {
   color: #012c6d;
+  font-size: 18px; /* Adjusted font size */
+  line-height: 1.5;
+  font-weight: 400; /* More readable weight */
 }
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .workcard_container {
+    padding: 10px;
+    gap: 20px;
+  }
+
+  .workcard_container .workcard {
+    width: 180px;
+    height: 280px;
+  }
+
+  .workcard_container .workcard .content h2 {
+    font-size: 20px;
+  }
+
+  .workcard_container .workcard .content p {
+    font-size: 16px;
+  }
+}
+
 /* /-----call to action----/ */
 .cta {
   margin: 100px auto;
@@ -1585,4 +1600,60 @@ button:hover {
   color: #0047ab;
   text-align: center;
   margin-bottom: 20px;
+}
+
+/* Circle for the User Initial */
+.user-circle {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #0c2b4d;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 28px;
+  text-transform: uppercase;
+  margin: auto; /* Center horizontally in its container */
+  cursor: pointer;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  display: none; /* Initially hidden */
+  position: absolute;
+  top: 100px; /* Position directly below the enlarged circle */
+  left: 50%; /* Align horizontally */
+  transform: translateX(-50%); /* Center-align relative to the circle */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  text-align: center; /* Center text in the dropdown */
+  width: 150px; /* Fixed width for dropdown menu */
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 5px;
+  color: #092c52;
+  text-decoration: none;
+  font-size: 16px; /* Slightly larger text for readability */
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Remove hover behavior for the dropdown */
+.user-circle:hover .dropdown-menu {
+  display: none; /* Now dropdown is managed by JavaScript */
 }
