@@ -848,33 +848,51 @@ password-container {
 /*<!-- ---------Predictor---------- --> */
 
 .predictor {
-  background-image: linear-gradient(rgba(245, 246, 252, 0.52), #041546b7),
-    url(images/image.jpg);
+  /* background-image: linear-gradient(rgba(245, 246, 252, 0.52), #041546b7),
+    url(images/image.jpg); */
   width: 100%;
   background-size: cover;
   background-position: center;
+  /* background: linear-gradient(135deg, #d3e76d 30%, #304e51); */
+  background-color: #f9fafc;
+  padding: 20px;
+  color: #fff;
 }
 
-.predictor h1 {
+/* .predictor h1 {
   width: 800px;
-  background-image: linear-gradient(
-    rgba(1, 44, 109, 0.89),
-    rgba(1, 44, 109, 0.473)
-  );
+  background-image: linear-gradient(#52969c, rgba(99, 126, 166, 0.473));
   margin-top: 50px;
   color: #fff;
   padding: 10px 0px 10px 0px;
   border-radius: 60px 60px 0px 0px;
   text-align: center;
+} */
+
+.predictor h1 {
+  width: 800px;
+  /* background-color: #de6829; Change from background-image to solid color */
+  background: linear-gradient(135deg, #2b5876, #4ecdc4);
+
+  margin: 50px auto; /* Centers the h1 element */
+  color: #fff;
+  padding: 10px 0;
+  border-radius: 60px 60px 0 0;
+  text-align: center;
 }
 
 .main {
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     rgba(1, 44, 109, 0.89),
     rgba(1, 44, 109, 0.473)
-  );
+  ); */
+  /* background-color: #de6829; */
+  background: linear-gradient(135deg, #2b5876, #4ecdc4);
+
   border-radius: 0 0 60px 60px;
   width: 800px;
+  /* left: 250px; */
+
   margin: auto;
 }
 form {
@@ -969,9 +987,17 @@ form {
   font-size: 14px;
   left: -50px;
 }
+
+.name.preferred-branch {
+  margin-left: 25px;
+  margin-right: 15px; /* Add spacing on the right */
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
 .option {
   position: relative;
-  left: 200px;
+  left: 220px; /* Adjust alignment */
   top: -37px;
   line-height: 40px;
   width: 530px;
@@ -1017,10 +1043,10 @@ form {
 }
 .ssc {
   position: relative;
-  left: 140px;
+  left: 180px; /* Increase left value for proper spacing */
   top: -65px;
   line-height: 40px;
-  width: 100px;
+  width: 150px; /* Adjust width for even spacing */
   border-radius: 6px;
   padding: 0 22px;
   font-size: 16px;
