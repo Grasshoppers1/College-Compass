@@ -854,6 +854,8 @@ password-container {
   background-size: cover;
   background-position: center;
   /* background: linear-gradient(135deg, #d3e76d 30%, #304e51); */
+  /* background-color: #f9fafc;
+   */
   background-color: #f9fafc;
   padding: 20px;
   color: #fff;
@@ -871,14 +873,14 @@ password-container {
 
 .predictor h1 {
   width: 800px;
-  /* background-color: #de6829; Change from background-image to solid color */
-  background: linear-gradient(135deg, #2b5876, #4ecdc4);
-
-  margin: 50px auto; /* Centers the h1 element */
+  background: linear-gradient(135deg, #4ecdc4, #2b5876);
+  margin: 50px auto;
   color: #fff;
-  padding: 10px 0;
-  border-radius: 60px 60px 0 0;
-  text-align: center;
+  padding: 15px 0;
+  border-radius: 30px;
+  font-size: 32px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .main {
@@ -891,7 +893,7 @@ password-container {
 
   border-radius: 0 0 60px 60px;
   width: 800px;
-  /* left: 250px; */
+  left: 250px;
 
   margin: auto;
 }
@@ -910,6 +912,7 @@ form {
 .name output {
   color: white;
 }
+
 .firstname {
   position: relative;
   left: 200px;
@@ -1019,7 +1022,7 @@ form {
   display: inline-block;
   padding-right: 70px;
   font-size: 18px;
-  margin-left: 25px;
+  margin-left: 185px;
   margin-top: 15px;
   padding-bottom: 50px;
   color: white;
