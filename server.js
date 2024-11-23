@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const app = express();
 const { ObjectId } = require('mongodb');
+const crypto = require("crypto");
 app.use(cors({
     origin: ['http://localhost:5500', 'http://127.0.0.1:5500','http://localhost:3000'],// Make sure this matches the frontend origin
     methods: ['GET', 'POST'],
@@ -43,18 +44,20 @@ app.use((req, res, next) => {
 });
 console.log('Session middleware initialized');
 
+const OTP_STORE = {}; // Temporary store for OTPs
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com", // Gmail SMTP server
+    port: 587, // Port for STARTTLS
+    secure: false, // Use STARTTLS
+    auth: {
+        user: "aykg0517@gmail.com", // Your Gmail address
+        pass: "ukfv ryoz ndqm efjk", // Your Gmail app password
+    },
+});
+
 app.post('/send-email', async (req, res) => {
     const { name, email, subject, message } = req.body;
     // Nodemailer configuration
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com', // Gmail SMTP server
-  port: 587, // Port for STARTTLS
-  secure: false, // Use STARTTLS rather than SSL
-        auth: {
-            user: 'aykg0517@gmail.com', // replace with your Gmail address
-            pass: 'ukfv ryoz ndqm efjk' // replace with your Gmail password or app password
-        }
-    });
     const mailOptions = {
         from: email,
         to: 'aykg0517@gmail.com', // replace with your Gmail address
@@ -71,7 +74,64 @@ app.post('/send-email', async (req, res) => {
         res.status(500).json({ message: 'Failed to send your message. Please try again later.' });
     }
 });
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+}
 
+// POST: Send OTP
+app.post("/send-otp", (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({ success: false, message: "Email is required." });
+    }
+
+    const otp = generateOTP();
+    OTP_STORE[email] = { otp, expiresAt: Date.now() + 300000 }; // Valid for 5 minutes
+
+    const mailOptions = {
+        from: "aykg0517@gmail.com",
+        to: email,
+        subject: "Your OTP for Verification",
+        text: `Your OTP for verification is ${otp}. It is valid for 5 minutes.`,
+    };
+    console.log("Request body:", req.body);
+   
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            console.error("Error sending OTP:", err);
+            return res.status(500).json({ success: false, message: "Failed to send OTP." });
+        }
+        res.status(200).json({ success: true, message: "OTP sent successfully." });
+    });
+});
+
+// POST: Verify OTP
+app.post("/verify-otp", (req, res) => {
+    console.log("Received request:", req.body);
+
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+        console.error("Missing email or OTP");
+        return res.status(400).json({ success: false, message: "Email and OTP are required." });
+    }
+
+    const record = OTP_STORE[email];
+    if (!record) {
+        return res.status(400).json({ success: false, message: "No OTP found for this email." });
+    }
+
+    if (Date.now() > record.expiresAt) {
+        delete OTP_STORE[email]; // Clean expired OTP
+        return res.status(400).json({ success: false, message: "OTP has expired." });
+    }
+
+    if (record.otp.toString() === otp.toString()) {
+        delete OTP_STORE[email]; // Clean used OTP
+        return res.status(200).json({ success: true, verified: true,message: "User verified successfully." });
+    } else {
+        return res.status(400).json({ success: false, verified: false,message: "Invalid OTP." });
+    }
+});
 // Database connections
 const collegeDb = mongoose.createConnection('mongodb://localhost:27017/College_Data', {
     useNewUrlParser: true,
@@ -329,6 +389,43 @@ app.get('/college-details', async (req, res) => {
         }
 
         res.json(collegeDetails);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server error.' });
+    }
+});
+
+
+//placement-details
+const placementdetailsSchema = new mongoose.Schema({
+    _id:  mongoose.Schema.Types.ObjectId,
+    "Institute Name": String,
+    "First year total students intake": Number,
+    "Total students admitted": Number,
+    "Total Graduated Students": Number,
+    "Total Placed Students": Number,
+    "Placement Percentage": String,
+    "Total student gone for higher studies": Number,
+    "Median Salary": String
+},{ collection: 'placement_details' });
+
+const placementDetail = collegeDb.model('placementDetail', placementdetailsSchema, 'placement_details');
+
+// API Endpoint to Fetch College Details by ID
+app.get('/placement-details', async (req, res) => {
+
+    const instituteName = req.query.name;
+    if (!instituteName) {
+        return res.status(400).send({ error: 'Institute name is required.' });
+    }
+
+    try {
+        const placementDetails = await placementDetail.findOne({ 'Institute Name': instituteName });
+        if (!placementDetails) {
+            return res.status(404).send({ error: 'College not found.' });
+        }
+
+        res.json(placementDetails);
     } catch (err) {
         console.error(err);
         res.status(500).send({ error: 'Server error.' });

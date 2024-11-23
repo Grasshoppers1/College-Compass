@@ -15,7 +15,211 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
     <link rel="icon" href="images/Indeximage.png" type="image/x-icon">
     
+    <!-- <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafb;
+            color: #333;
+        }
     
+        h1, h3 {
+            color: #4a5568;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+    
+        table {
+            width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 14px;    
+        }
+        #college-details, #placement-details {
+        display: inline-block;
+        width: 48%;
+        vertical-align: top;
+        margin: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: white;
+    }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        th {
+            background-color:#edf2f7;
+            color: #2d3748;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    
+        tr:hover {
+            background-color:#f7fafc;
+        }
+    
+        td {
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+        }
+    
+        tr:last-child td {
+            border-bottom: none;
+        }
+    
+        /* Styling for tables when placed next to charts */
+        #graphs-container {
+        width: 85%;
+        display: inline-block;
+        vertical-align: top;
+        margin: 10px;
+        text-align: center;
+    }
+
+    canvas {
+        margin: 10px auto;
+        max-width: 90%;
+        height: auto;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1000px) {
+        #college-details, #placement-details, #graphs-container {
+            display: block;
+            width: 110%;
+            margin: 20px auto;
+        }
+    }
+
+    table caption {
+        caption-side: top;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #4a5568;
+    }
+    </style>
+
+     -->
+     <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+    
+        h1, h3 {
+            color: #1a202c;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+    
+      
+    
+        /* Main Content Styles */
+        #college-details, #placement-details {
+            width: 45%;
+            margin: 20px;
+            display: inline-block;
+            vertical-align: top;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            order: 2;
+        }
+    
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+    
+        th {
+            background-color: #edf2f7;
+            color: #2d3748;
+            font-weight: 700;
+        }
+    
+        tr:hover {
+            background-color: #f7fafc;
+        }
+    
+        td {
+            color: #4a5568;
+        }
+    
+        tr:last-child td {
+            border-bottom: none;
+        }
+    
+        /* Graphs Section */
+        #graphs-container {
+            width: 100%;
+            margin: 10px auto;
+            text-align: center;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    
+        canvas {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 200px;
+            max-height: 200px;
+        }
+    
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #college-details, #placement-details {
+                width: 90%;
+                margin: 20px auto;
+            }
+    
+            #graphs-container {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            canvas {
+                max-width: 90%;
+                height: auto;
+            }
+        }
+    
+        /* Modern Table Caption */
+        table caption {
+            caption-side: top;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2d3748;
+            text-transform: uppercase;
+        }
+    </style>
+    
+
 </head>
 <body>
     <section class="sub-header">
@@ -36,7 +240,25 @@
     <div id="college-details">
         <p>Loading college details...</p>
     </div>
-
+    
+    <div id="student-diversification" style="margin-top: 30px; text-align: center;">
+        <h3 id="diversification-heading">Student Diversification at <span id="institute-name">Institute Name</span></h3>
+    <div id="graphs-container" style="display: flex; justify-content: space-around; align-items: center; margin: 20px 0;">
+        <div>
+            <h3>Gender Ratio</h3>
+            <canvas id="genderRatioChart" width="400" height="400"></canvas>
+        </div>
+        <div>
+            <h3>Outside State Ratio</h3>
+            <canvas id="outsideStateChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+   
+    <div id="placement-details">
+        <p>Loading placement details...</p>
+    </div>
+    
+    
     <script>
         // Extract and trim query parameter
         const getInstituteNameFromUrl = () => {
@@ -79,16 +301,144 @@
                         <tr><th>Percentage of Students from Outside the States</th><td>${data['Percentage Of Students from Outside the States']}</td></tr>
                     </table>
                 `;
-            } catch (error) {
+                document.getElementById('institute-name').textContent = data['Institute Name '];
+      //          const genderPercentages = data['Gender Percentage'].split(',').map((val) => parseFloat(val.trim()));
+        //const [malePercentage, femalePercentage] = genderPercentages;
+   //     renderAdjacentCollegesGraphs(data['Institute Name ']);
+        renderGenderRatioChart(data['Gender Percentage']);
+        renderOutsideStateChart(data['Percentage Of Students from Outside the States']);
+
+    } catch (error) {
                 // Log and display errors
                 console.error('Error fetching college details:', error);
                 detailsDiv.innerHTML = `<p>Error loading details: ${error.message}</p>`;
             }
         }
+        function renderGenderRatioChart(genderPercentageText) {
+    // Extract percentages using regex
+    const match = genderPercentageText.match(/Male (\d+)% and Female (\d+)%/);
+    if (!match) {
+        console.error('Invalid gender percentage format:', genderPercentageText);
+        return;
+    }
+
+    const malePercentage = parseFloat(match[1]); // Extract Male percentage
+    const femalePercentage = parseFloat(match[2]); // Extract Female percentage
+
+    const ctx = document.getElementById('genderRatioChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Male', 'Female'],
+            datasets: [{
+                data: [malePercentage, femalePercentage],
+                backgroundColor: ['#36A2EB', '#FF6384'],
+            }],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: {
+                callbacks: {
+                        label: function(tooltipItem) {
+                            const value = tooltipItem.raw;  // Get the raw value (e.g., 81)
+                            const total = tooltipItem.dataset.data.reduce((a, b) => a + b, 0); // Get total sum (e.g., 100)
+                            const percentage = ((value / total) * 100).toFixed(2);  // Calculate percentage
+                            return `${tooltipItem.label}: ${percentage}%`;  // Return percentage in tooltip
+                        },
+                    },
+                },
+            },
+        },
+        
+    });
+}
+function renderOutsideStateChart(outsideStatePercentage) {
+    const outsidePercentage = parseFloat(outsideStatePercentage.replace('%', '').trim());
+    const sameStatePercentage = 100 - outsidePercentage;
+
+    const ctx = document.getElementById('outsideStateChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Outside State', 'Same State'],
+            datasets: [{
+                data: [outsidePercentage, sameStatePercentage],
+                backgroundColor: ['#FFCE56', '#4BC0C0'],
+            }],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            const value = tooltipItem.raw;  // Get the raw value (e.g., 20)
+                            const total = tooltipItem.dataset.data.reduce((a, b) => a + b, 0); // Get total sum (e.g., 100)
+                            const percentage = ((value / total) * 100).toFixed(2);  // Calculate percentage
+                            return `${tooltipItem.label}: ${percentage}%`;  // Return percentage in tooltip
+                        },
+                    },
+                },
+            },
+        },
+        
+    });
+}
+
+        // Parse outside state percentage
+       
+        async function fetchplacementDetails() {
+            const detailsDiv1 = document.getElementById('placement-details');
+            const instituteName = getInstituteNameFromUrl();
     
+            // Check if collegeId is valid
+            if (!instituteName) {
+        detailsDiv1.innerHTML = `<p>Error: Invalid or missing institute name.</p>`;
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:5000/placement-details?name=${encodeURIComponent(instituteName)}`);
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+        }
+    
+                const data1 = await response.json();
+    
+                // Render details in the UI
+                detailsDiv1.innerHTML = `
+                <h3>Placement Analysis of ${data1['Institute Name']}</h3>
+                    <table>
+                        <tr><th>First year total students intake</th><td>${data1['First year total students intake']}</td></tr>
+                        <tr><th>Total students admitted</th><td>${data1['Total students admitted']}</td></tr>
+                        <tr><th>Total Graduated Students</th><td>${data1['Total Graduated Students']}</td></tr>
+                        <tr><th>Total Placed Students</th><td>${data1['Total Placed Students']}</td></tr>
+                        <tr><th>Placement Percentage</th><td>${data1['Placement Percentage']}</td></tr>
+                        <tr><th>Total student gone for higher studies</th><td>${data1['Total student gone for higher studies']}</td></tr>
+                        <tr><th>Median Salary</th><td>${data1['Median Salary']}</td></tr>
+                    </table>
+                `;
+                
+
+    } catch (error) {
+                // Log and display errors
+                console.error('Error fetching college details:', error);
+                detailsDiv1.innerHTML = `<p>Error loading details: ${error.message}</p>`;
+            }
+        }
+    
+
+
+
+        
         // Initialize fetching of college details
         document.addEventListener('DOMContentLoaded', fetchCollegeDetails);
+        document.addEventListener('DOMContentLoaded', fetchplacementDetails);
     </script>
-    
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </body>
 </html>

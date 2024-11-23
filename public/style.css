@@ -1483,14 +1483,14 @@ form {
 }
 
 /* General Styling */
-body {
+ /*body {
   font-family: "Poppins", sans-serif;
-  background-color: #f5f6fa; /* Light background */
-  color: #333; /* Dark text for contrast */
+  background-color: #f5f6fa; /* Light background 
+  color: #333; /* Dark text for contrast 
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-}
+} 
 h1,
 h2 {
   text-align: center;
@@ -1501,19 +1501,19 @@ h2 {
   max-width: 1000px;
   margin: 40px auto;
   padding: 20px;
-  background: #ffffff; /* White card-style background */
+  background: #ffffff; /* White card-style background 
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow 
 }
 
 h1 {
   font-size: 2rem;
-  color: #0047ab; /* Navy blue color */
+  color: #0047ab; /* Navy blue color 
   text-align: center;
   margin-bottom: 20px;
 }
 
-/* Table Styling */
+/* Table Styling 
 table {
   width: 100%;
   border-collapse: collapse;
@@ -1530,29 +1530,29 @@ td {
 }
 
 th {
-  background: #97a0ac; /* Navy blue */
-  color: #ffffff; /* White text */
+  background: #97a0ac; /* Navy blue 
+  color: #ffffff; /* White text 
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 1px;
 }
 
 td {
-  border-bottom: 1px solid #ddd; /* Light grey divider */
-  color: #555; /* Slightly muted text for readability */
+  border-bottom: 1px solid #ddd; /* Light grey divider 
+  color: #555; /* Slightly muted text for readability 
 }
 
-/* Hover Effects */
+/* Hover Effects 
 tr:hover td {
-  background-color: #f1f1f1; /* Light gray hover effect */
+  background-color: #f1f1f1; /* Light gray hover effect 
 }
 
-/* Last Row Border Removal */
+/* Last Row Border Removal 
 tr:last-child td {
   border-bottom: none;
 }
 
-/* Responsive Design */
+/* Responsive Design
 @media (max-width: 768px) {
   body {
     padding: 10px;
@@ -1566,7 +1566,7 @@ tr:last-child td {
     font-size: 0.9rem;
   }
 }
-
+*/
 /* Button Styles (Optional for Future Use) */
 button {
   display: inline-block;
@@ -1657,3 +1657,21 @@ button:hover {
 .user-circle:hover .dropdown-menu {
   display: none; /* Now dropdown is managed by JavaScript */
 }
+#graphs-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+#graphs-container div {
+  text-align: center;
+}
+
+canvas {
+  max-width: 300px;
+  max-height: 300px;
+  margin: 0 auto;
+}
+/* Overlay style */

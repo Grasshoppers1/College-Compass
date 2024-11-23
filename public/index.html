@@ -12,6 +12,87 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
 <link rel="icon" href="images/logo.png" type="image/x-icon">
+<style>/* Overlay to dim the background */
+    .verification-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+    }
+    
+    /* Verification card styling */
+    .verification-card {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 350px;
+        background: linear-gradient(to right, #ffffff, #e6e6e6);
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        z-index: 1001;
+        font-family: 'Poppins', sans-serif;
+        text-align: center;
+    }
+    
+    /* Heading style */
+    .verification-card h2 {
+        margin-bottom: 10px;
+        font-size: 22px;
+        color: #333;
+        font-weight: 600;
+    }
+    
+    /* Paragraph style */
+    .verification-card p {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 15px;
+    }
+    
+    /* Input field styling */
+    .verification-card input {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        font-size: 14px;
+    }
+    
+    /* Button styling */
+    .verification-card button {
+        width: 100%;
+        padding: 10px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    
+    .verification-card button:hover {
+        background: #0056b3;
+    }
+    
+    /* OTP section styling */
+    .otp-section {
+        margin-top: 15px;
+    }
+    .verified-tick {
+    color: blue;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+    </style>
 </head>
 <body>
    <section class="header">
@@ -24,6 +105,7 @@
                 <li><a href="index.html#predictor">Finder</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li id="auth-link"><a href="login.html">Login</a></li>
+                <li id="review-link"> </li>
             </ul>
         </div>
 
@@ -33,10 +115,26 @@
             <div class="dropdown-menu" id="dropdownMenu">
                 <a href="#" id="profileLink">View Profile</a>
                 <a href="#" id="logoutLink">Logout</a>
+                <a href="#" id="verified">Get verified</a>
             </div>
         </div>
+        
     </nav>
+    <div id="verificationContainer" class="verification-container" style="display: none;">
+        <div class="verification-overlay"></div>
+        <div class="verification-card">
+            <h2>Email Verification</h2>
+            <p>Enter your email to receive an OTP for verification:</p>
+            <input type="email" id="emailInput" placeholder="Enter your email" required>
+            <button id="sendOTPButton" onclick="sendOTP()">Send OTP</button>
     
+            <div id="otpSection" class="otp-section" style="display: none;">
+                <p>Enter the OTP sent to your email:</p>
+                <input type="text" id="otpInput" placeholder="Enter OTP" required>
+                <button id="verifyOTPButton" onclick="verifyOTP()">Verify OTP</button>
+            </div>
+        </div>
+    </div>
     
        <div class="text-box">
         <h1>Key to Future</h1>
@@ -252,26 +350,37 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem('user'));
+    console.log('User:', user); // Debugging statement
     const userCircle = document.getElementById('userCircle');
     const userInitial = document.getElementById('userInitial');
     const authLink = document.getElementById('auth-link');
     const dropdownMenu = document.getElementById('dropdownMenu');
     const logoutLink = document.getElementById('logoutLink');
-
+    const verificationModal = document.getElementById('verification-modal');
+    
+    const authButton = document.getElementById('auth-button');
+    
+    const reviewLink = document.getElementById('review-link'); // Corrected ID
+   
+    
     if (user) {
         // Show the user's initial in the circle
-        const initial = user.name.charAt(0).toUpperCase();
+        const initial = user.name.charAt(0).toUpperCase()||"U";
         userInitial.innerText = initial;
+
 
         // Hide the "Login" link and show the user circle
         authLink.style.display = 'none';
         userCircle.style.display = 'inline-block';
+        if (reviewLink) reviewLink.style.display = 'none';  
+
+        
+       document.getElementById('nav-links').appendChild(reviewLink);
 
         // Toggle dropdown menu visibility on click
         userCircle.addEventListener('click', (event) => {
             event.stopPropagation(); // Prevent click event from propagating to the document
-            const isVisible = dropdownMenu.style.display === 'block';
-            dropdownMenu.style.display = isVisible ? 'none' : 'block'; // Toggle visibility
+            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
         });
 
         // Close the dropdown menu if the user clicks outside of it
@@ -290,7 +399,91 @@ document.addEventListener("DOMContentLoaded", () => {
         authLink.style.display = 'inline-block';
         userCircle.style.display = 'none';
     }
+   
+
 });
+
+document.getElementById('verified').addEventListener('click', () => {
+    // Show verification card and overlay
+    document.getElementById('verificationContainer').style.display = 'block';
+        
+});
+async function sendOTP() {
+    try{
+        const response = await fetch("http://localhost:5000/send-otp", {
+             method: "POST", // Ensure this matches your backend
+             headers: {
+                 "Content-Type": "application/json"
+            },
+             body: JSON.stringify({email: document.getElementById("emailInput").value})
+         });
+         if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+         }
+
+        // Parse JSON only if response body exists
+         const data = await response.json(); // Ensure backend returns JSON
+         
+         console.log(data.message);
+         document.getElementById("otpSection").style.display = "block";
+         alert('OTP Sent Successfully');
+         // Example: Display the message from backend
+     }
+  catch (error) {
+         console.error("Error:", error.message);
+     }
+}
+
+
+async function verifyOTP() {
+    const email=document.getElementById("emailInput").value;
+    const otp = document.getElementById("otpInput").value;
+
+    try {
+        const response = await fetch("http://localhost:5000/verify-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email,otp }),
+           // Ensure correct data is sent
+        });
+        console.log({ email, otp });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        // const reviewLink = document.createElement("a");
+        //     reviewLink.href = "/write-review";
+        //     reviewLink.innerText = "Write a Review";
+        //     reviewLink.className = "review-link";
+        //     document.getElementById("navBar").appendChild(reviewLink);
+
+        if (data.success) {
+          alert("OTP verified successfully!");
+          const user = JSON.parse(localStorage.getItem('user'));
+            user.verified = true; // Update the verified status
+            localStorage.setItem('user', JSON.stringify(user)); // Save updated user in localStorage
+            updateUI(user); // Update the UI
+
+        //   const user = { name: email.split('@')[0], verified: true };
+        // localStorage.setItem('user', JSON.stringify(user));
+
+        // Refresh the page to show updated UI
+        window.location.reload();
+          // Optionally, redirect or perform other actions
+        } else {
+          alert("Invalid OTP. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        alert("Failed to verify OTP. Please try again.");
+      }
+    
+}
 
 
 
@@ -299,6 +492,29 @@ function toggleDropdown() {
     const dropdownMenu = document.getElementById('dropdownMenu');
     dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
 }
+function updateUI(user) {
+    const userInitial = document.getElementById('userInitial');
+    const reviewLink = document.getElementById('review-link');
+    const navLinks = document.getElementById('nav-links');
+
+    // Add verified tick if user is verified
+    if (user.verified) {
+        userInitial.innerHTML = `${user.name.charAt(0).toUpperCase()} <span class="verified-tick">✔️</span>`;
+
+        // Show the review link only if not already added
+            reviewLink.innerHTML = `<a href="review.html">Write a Review</a>`;
+        } else {
+            reviewLink.innerHTML = ''; // Ensure it's hidden for unverified users
+
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        updateUI(user);
+    }
+});
+
     // Get user data from localStorage
    
     
@@ -333,7 +549,8 @@ function toggleDropdown() {
     //     // authLink.innerHTML = `<a href="login.html">Login</a>`;
     //     window.location.href = 'login.html';
     // }
-
+    
+    
 </script>
 
 
