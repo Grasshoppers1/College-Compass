@@ -27,13 +27,15 @@
                      <li><a href="index.html#Branch"> Branches</a></li>
                      <li><a href="index.html#predictor">  Finder</a></li>
                      <li><a href="contact.html"> Contact</a></li>
-                     <li><a href="login.html"> Login</a></li>
+                    
                         
                         
                  </ul>
      
                  <!-- search icon -->
       </div>
+
+      
             </nav>
    
        <h1>Finder</h1>
@@ -188,6 +190,29 @@
      let latitude = null;
        let longitude = null;
        let locationDenied = false;
+
+       // JavaScript for User Initial Box
+document.addEventListener("DOMContentLoaded", () => {
+  const userBox = document.getElementById("user-box");
+
+  // Simulate logged-in user data (replace this with your login mechanism)
+  const userName = localStorage.getItem("userName") || "John Doe";
+
+  // Extract the first letter from the user's name
+  const userInitial = userName.trim().charAt(0).toUpperCase();
+
+  // Set the initial inside the box
+  userBox.textContent = userInitial;
+
+  // Add a tooltip with the full name
+  userBox.setAttribute("title", `Logged in as: ${userName}`);
+});
+
+// Simulating login for demonstration purposes
+function simulateLogin(name) {
+  localStorage.setItem("userName", name);
+}
+
        
       
         window.onload = function () {
