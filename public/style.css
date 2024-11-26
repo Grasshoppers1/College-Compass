@@ -1955,3 +1955,109 @@ canvas {
   margin: 0 auto;
 }
 /* Overlay style */
+
+/* USER PROFILE  */
+
+/* User Profile Section */
+#user-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 250px); /* Dynamic height adjustment */
+  background-color: #eef3fc; /* Subtle blue background for elegance */
+  padding: 50px 20px; /* Larger padding */
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff; /* White card background */
+  border-radius: 20px; /* Softer corners */
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15); /* Stronger depth effect */
+  padding: 60px;
+  width: 600px; /* Wider card */
+  max-width: 90%; /* Ensure responsiveness */
+  text-align: center;
+}
+
+.avatar {
+  width: 150px; /* Larger avatar */
+  height: 150px;
+  background-color: #007bff; /* Vibrant blue background */
+  color: white;
+  font-size: 64px; /* Bigger font for initials */
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-bottom: 30px;
+}
+
+.user-details h2 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700; /* Bolder text for name */
+  font-size: 32px; /* Larger text size */
+  color: #333333;
+  margin-bottom: 15px;
+}
+
+.user-details p {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 18px; /* Slightly larger details */
+  color: #555555;
+  margin: 12px 0;
+  line-height: 1.8; /* Improved readability */
+}
+
+.user-details strong {
+  color: #333333;
+  font-weight: 600; /* Stronger emphasis */
+}
+
+/* Edit Profile Button */
+.edit-profile-btn {
+  margin-top: 30px;
+  background-color: #007bff; /* Blue background */
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 18px; /* Bigger button text */
+  text-transform: uppercase;
+  padding: 15px 30px; /* Larger button */
+  border: none;
+  border-radius: 8px; /* Softer edges */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1); /* Button shadow */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.edit-profile-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-3px); /* More pronounced lift effect */
+}
+
+/* For larger screens, make it even grander */
+@media (min-width: 1200px) {
+  .profile-container {
+    padding: 80px;
+    width: 700px;
+  }
+  .avatar {
+    width: 180px;
+    height: 180px;
+    font-size: 72px;
+  }
+  .user-details h2 {
+    font-size: 36px;
+  }
+  .user-details p {
+    font-size: 20px;
+  }
+  .edit-profile-btn {
+    font-size: 20px;
+    padding: 20px 40px;
+  }
+}

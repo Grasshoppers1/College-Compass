@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Navbar and Footer</title>
-    <link rel="stylesheet" href="style.css">
+    <title>College-Compass</title>
+    <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,92 +20,150 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css"
     />
-    <link rel="icon" href="images/tabicon.png" type="image/x-icon" />
-   
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
   </head>
   <body>
-    <!-- Navbar Section -->
-    <section class="header">
+    <section class="sub-header">
       <nav>
-        <a href="index.html"><img src="images/logo.png" alt="Logo" /></a>
+        <a href="index.html"><img src="images/Indeximage.png" /></a>
         <div class="nav-links">
           <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#Branch">Branches</a></li>
-            <li><a href="index.html#  Finder"> Finder</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <!-- <li><a href="login.html">Login</a></li> -->
+            <li><a href="index.html#Branch"> Branches</a></li>
+            <li><a href="  Finder.html"> Finder</a></li>
+            <li><a href="about.html"> About</a></li>
           </ul>
+
+          <!-- search icon -->
         </div>
       </nav>
+      <h1>USER PROFILE</h1>
     </section>
 
-    <!-- <section class="profile-container">
-        <div class="profile-card">
-        
-          <div class="profile-photo">
-            <span id="user-initial">A</span>
-          </div>
-          
-          <div class="profile-details">
-            <h2 id="user-fullname">Ayush Kumar</h2>
-            <p><i class="fas fa-envelope"></i> <span id="user-email">ayush@example.com</span></p>
-            <p><i class="fas fa-phone"></i> <span id="user-phone">+91 9876543210</span></p>
-            <p><i class="fas fa-graduation-cap"></i> Class: <span id="user-class">10th</span></p>
-          </div>
-        </div>
-      </section> -->
+    <!-- MIDDLE PART -->
 
-    
+    <!-- User Details Section -->
+    <!-- User Details Section -->
+    <section id="user-profile">
+      <div class="profile-container">
+        <div class="avatar">
+          <span>P</span>
+        </div>
+        <div class="user-details">
+          <h2>Parth Gupta</h2>
+          <p><strong>Email:</strong> 22103117@mail.jiit.ac.in</p>
+          <p><strong>Phone:</strong> 9811526789</p>
+          <p><strong>Class Studying In:</strong> College</p>
+        </div>
+        <button class="edit-profile-btn" onclick="showEditPopup()">
+          Edit Profile
+        </button>
+      </div>
+    </section>
+
+    <!-- ---------Footer---------- -->
 
     <section class="footer">
-        < class="container">
-            <div class="row">
-                <div class="col">
-                    <img src="images/logo.png" class="footer-logo" >
-                   <p>A one-stop solution for students that includes
-                    preferences, minority and simultaneously predicts a suitable college
-                       </p>
-                 </div>
-                 <div class="col-md-3">
-                    <h4>Group Members</h4>
-                    <p>Ayush Kumar Goyal</p>
-                    <p>  Tanmay Gupta</p>
-                    <p>  Parth Gupta</p>
-                    <p>  </p>
-                 </div>
-                 <div class="col-md-3">
-                     <ul>
-                    <h4>Branches</h4>
-                    <li><a href="comps.html"><p>Computer Engineering</p></a></li>
-                    <li><a href="IT.html"><p>Information Technology</p></a></li>
-                    <li><a href="extc.html"><p>Electronics And Telecommunication</p></a></li>
-                         <li><a href="electronics.html"> <p>Electronics  Engineering</p></a></li>  
-                         <li><a href="AI.html"><p>Artificial-intelligence</p></a></li>
-                                  <li><a href="civil.html"><p>Civil Engineering</p></a></li>
-                                      
-                                         
-                </ul>
-                </div>
-                 <div class="col-md-3">
-                     <ul>
-                    <h4>Other</h4>
-                    <li><a href="  Finder.html"><p> Finder</p></a></li>
-                        <li><a href="about.html"><p>About Us</p></a></li>
-                    </ul>
-                 </div>
-                 <div class="col-md-3">
-                    <h4>Contact Us</h4>
-                    <p><i class="fab fa-instagram"></i>@futureedu</p>
-                    <p><i class="fab fa-google-plus"></i>contact.futureedu@gmail.com</p>
-                 </div>
-    
-            </div> <hr>
-            <br class="copyright"><br>Made by Students</br>
-                <br> Made for students </br>
-                </p>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <img src="images/Indeximage.png" class="footer-logo" />
+            <p>
+              A one-stop solution for students that includes preferences,
+              minority and simultaneously predicts a suitable college
+            </p>
+          </div>
+          <div class="col-md-3">
+            <h4>Group Members</h4>
+            <p>Ayush Kumar Goyal</p>
+            <p>Tanmay Gupta</p>
+            <p>Parth Gupta</p>
+            <p></p>
+          </div>
+          <div class="col-md-3">
+            <ul>
+              <h4>Branches</h4>
+              <li>
+                <a href="comps.html"><p>Computer Engineering</p></a>
+              </li>
+              <li>
+                <a href="IT.html"><p>Information Technology</p></a>
+              </li>
+              <li>
+                <a href="extc.html"><p>Electronics And Telecommunication</p></a>
+              </li>
+              <li>
+                <a href="electronics.html"> <p>Electronics Engineering</p></a>
+              </li>
+              <li>
+                <a href="AI.html"><p>Artificial-intelligence</p></a>
+              </li>
+              <li>
+                <a href="civil.html"><p>Civil Engineering</p></a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <ul>
+              <h4>Other</h4>
+              <li>
+                <a href="  Finder.html"><p>Finder</p></a>
+              </li>
+              <li>
+                <a href="about.html"><p>About Us</p></a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h4>Contact Us</h4>
+            <p><i class="fab fa-instagram"></i>@College-Compass</p>
+            <p>
+              <i class="fab fa-google-plus"></i>contact.collegecompass@gmail.com
+            </p>
+          </div>
         </div>
-    
+        <hr />
+        <p class="copyright">Made by JIITIANS</p>
+      </div>
     </section>
   </body>
 </html>
+
+<script>
+  // Function to show the simple alert popup
+  function showEditPopup() {
+    alert(
+      "Functionality will come soon. We are working on this feature. Stay tuned!"
+    );
+  }
+
+  // Function to load the user data from localStorage
+  function loadUserProfile() {
+    // Get user data from localStorage
+    const userData = JSON.parse(localStorage.getItem("user"));
+
+    if (userData) {
+      // Populate the user profile with the data from localStorage
+      document.getElementById("user-name").textContent =
+        userData.name || "Name not available";
+      document.getElementById("user-email").textContent =
+        userData.email || "Email not available";
+      document.getElementById("user-phone").textContent =
+        userData.phone || "Phone not available";
+      document.getElementById("user-class").textContent =
+        userData.class || "Class not available";
+
+      // Set the avatar's initial (or use any other logic to display avatar)
+      const avatarInitial = userData.name
+        ? userData.name[0].toUpperCase()
+        : "P";
+      document.getElementById("avatar-name").textContent = avatarInitial;
+    } else {
+      alert("User not logged in or session expired.");
+      window.location.href = "login.html"; // Redirect to login if no user data is found
+    }
+  }
+
+  // Call the function when the page loads
+  // document.addEventListener("DOMContentLoaded", loadUserProfile);
+</script>
