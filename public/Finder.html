@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College-Compass | Predictor</title>
+    <title>College-Compass |   Finder</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
         
         
     
-        <div class="predictor">
+        <div class="  Finder">
             
             <nav>
                 <a href="index.html"><img src="images/Indeximage.png"></a>
@@ -25,7 +25,7 @@
                  <ul>
                      <li><a href="index.html">Home</a></li>
                      <li><a href="index.html#Branch"> Branches</a></li>
-                     <li><a href="index.html#predictor">  Finder</a></li>
+                     <li><a href="index.html#  Finder">   Finder</a></li>
                      <li><a href="contact.html"> Contact</a></li>
                      <li><a href="login.html"> Login</a></li>
                         
@@ -36,9 +36,9 @@
       </div>
             </nav>
    
-       <h1>Finder</h1>
+       <h1> Finder</h1>
        <div class="main">
-        <form id="predictorForm">
+        <form id="  FinderForm">
             <h2 class="title">Personal Details</h2>
             <div id="name">
                 <h2 class="name">Name</h2>
@@ -166,7 +166,7 @@
              <div class="col-md-3">
                  <ul>
                 <h4>Other</h4>
-                <li><a href="predictor.html"><p>Finder</p></a></li>
+                <li><a href="  Finder.html"><p> Finder</p></a></li>
                     <li><a href="about.html"><p>About Us</p></a></li>
                 </ul>
              </div>
@@ -223,7 +223,7 @@
        async function submitForm() {
        
 
-           const form = document.getElementById('predictorForm');
+           const form = document.getElementById('  FinderForm');
            const formData = new FormData(form);
            const branch = formData.get('branch') === 'ALL' ? '' : formData.get('branch'); // Send empty string for "ALL"
            const category = formData.get('category'); // Get the selected category
@@ -403,7 +403,7 @@ function displayResults(colleges) {
 console.log(college);  // Check if college._id and college['Institute Name '] are correct
 
 nameTd.innerHTML = `
-    <a href="http://127.0.0.1:5500/COLLEGE-COMPASS/public/details.html?name=${encodeURIComponent(college['Institute Name '])}" 
+    <a href="http://127.0.0.1:5500/COLLEGE-COMPASS/public/details.html?name=${encodeURIComponent(college['Institute Name '])}&rank=${college['NIRF_RANK']}&index=${startIndex + index}}" 
        class="clickable-name" target="_blank">
        ${college['Institute Name ']}
     </a>`;

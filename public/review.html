@@ -4,13 +4,271 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College-Compass</title>
+    <title>College-Compass Review</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
-<link rel="icon" href="images/logo.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<style>
+    body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: none;
+}
+
+textarea::placeholder {
+    color: #aaa;
+}
+
+.rating {
+    margin-bottom: 20px;
+}
+
+.stars {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.stars i {
+    font-size: 24px;
+    color: #ddd;
+}
+
+.stars i.selected {
+    color: #f4c430;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+</style>
+
+
 </head>
+<body>
+    <section class="header">
+        <nav>
+            <a href="index.html"><img src="images/Indeximage.png" alt="Logo"></a>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#Branch">Branches</a></li>
+                    <li><a href="index.html#Finder">Finder</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="auth-link"><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+    </section>
+
+    <div class="container">
+        <h1>Share Your Review</h1>
+        <form id="reviewForm">
+            <div class="question">
+                <label for="question1">1. How are the academics?</label>
+                <textarea id="question1" name="question1" maxlength="100" placeholder="Your answer here..."></textarea>
+            </div>
+            <div class="question">
+                <label for="question2">2. How are the campus amenities?</label>
+                <textarea id="question2" name="question2" maxlength="100" placeholder="Your answer here..."></textarea>
+            </div>
+            <div class="question">
+                <label for="question3">3. Are faculty members supportive?</label>
+                <textarea id="question3" name="question3" maxlength="100" placeholder="Your answer here..."></textarea>
+            </div>
+            <div class="question">
+                <label for="question4">4. How are placement opportunities?</label>
+                <textarea id="question4" name="question4" maxlength="100" placeholder="Your answer here..."></textarea>
+            </div>
+            <div class="question">
+                <label for="question5">5. Describe the campus environment.</label>
+                <textarea id="question5" name="question5" maxlength="100" placeholder="Your answer here..."></textarea>
+            </div>
+            <div class="rating">
+                <label>Rate Your College:</label>
+                <div class="stars">
+                    <i class="fa fa-star" data-value="1"></i>
+                    <i class="fa fa-star" data-value="2"></i>
+                    <i class="fa fa-star" data-value="3"></i>
+                    <i class="fa fa-star" data-value="4"></i>
+                    <i class="fa fa-star" data-value="5"></i>
+                </div>
+                <input type="hidden" id="rating" name="rating" required>
+            </div>
+            <div class="suggestion">
+                <label for="suggestion">How would you suggest your college to juniors?</label>
+                <textarea id="suggestion" name="suggestion" maxlength="150" placeholder="Your answer here..."></textarea>
+            </div>
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+
+
+
+
+
+  <!---  <script src="script.js"></script>>  -->
+          <script>
+const stars = document.querySelectorAll('.stars i');
+        const ratingInput = document.getElementById('rating');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = star.getAttribute('data-value');
+                ratingInput.value = rating;
+
+                // Highlight stars based on selection
+                stars.forEach(s => {
+                    s.classList.remove('selected');
+                    if (s.getAttribute('data-value') <= rating) {
+                        s.classList.add('selected');
+                    }
+                });
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+           
+           document.getElementById("reviewForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Get values from the form
+  //  const comment = document.getElementById("comment").value;
+   // const rating = document.getElementById("rating").value;
+
+    // Get user and collegeId from localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user.college_id || !user.id) {
+        alert("Error: User or College ID is missing. Please log in again.");
+        return;
+    }
+    console.log("User from Local Storage:", user);
+
+
+
+
+    const questions = [
+                document.getElementById("question1").value,
+                document.getElementById("question2").value,
+                document.getElementById("question3").value,
+                document.getElementById("question4").value,
+                document.getElementById("question5").value
+            ];
+    // const suggestion = document.querySelector("[name='suggestion']").value;
+    // const rating = document.querySelector("#stars .selected")?.dataset.value;
+    const suggestion = document.getElementById("suggestion").value;
+            const rating = document.getElementById("rating").value;
+
+    if (!rating) {
+        alert("Please select a rating.");
+        return;
+    }
+
+    const payload = {
+        collegeId: user.college_id,
+        userId: user.id,
+        questions,
+        suggestion,
+        rating,
+    };
+
+
+
+
+
+
+
+
+
+
+    try {
+        const response = await fetch("http://localhost:5000/add-comment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload),
+        });
+        console.log("Payload sent to backend:", {
+    userId: user.id,
+    collegeId: user.college_id,
+    rating,
+});
+        const data = await response.json();
+        if (data.success) {
+            alert("Review added successfully!");
+            window.location.reload(); // Reload the page or update the UI
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error("Error submitting review:", error);
+        alert("Failed to submit review. Please try again later.");
+    }
+   
+});
+
+</script>
+          
 </html>

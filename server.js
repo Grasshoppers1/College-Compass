@@ -8,6 +8,7 @@ const MongoStore = require('connect-mongo');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const app = express();
+const router = express.Router();
 const { ObjectId } = require('mongodb');
 const crypto = require("crypto");
 app.use(cors({
@@ -79,59 +80,9 @@ function generateOTP() {
 }
 
 // POST: Send OTP
-app.post("/send-otp", (req, res) => {
-    const { email } = req.body;
-    if (!email) {
-        return res.status(400).json({ success: false, message: "Email is required." });
-    }
-
-    const otp = generateOTP();
-    OTP_STORE[email] = { otp, expiresAt: Date.now() + 300000 }; // Valid for 5 minutes
-
-    const mailOptions = {
-        from: "aykg0517@gmail.com",
-        to: email,
-        subject: "Your OTP for Verification",
-        text: `Your OTP for verification is ${otp}. It is valid for 5 minutes.`,
-    };
-    console.log("Request body:", req.body);
-   
-    transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-            console.error("Error sending OTP:", err);
-            return res.status(500).json({ success: false, message: "Failed to send OTP." });
-        }
-        res.status(200).json({ success: true, message: "OTP sent successfully." });
-    });
-});
 
 // POST: Verify OTP
-app.post("/verify-otp", (req, res) => {
-    console.log("Received request:", req.body);
 
-    const { email, otp } = req.body;
-    if (!email || !otp) {
-        console.error("Missing email or OTP");
-        return res.status(400).json({ success: false, message: "Email and OTP are required." });
-    }
-
-    const record = OTP_STORE[email];
-    if (!record) {
-        return res.status(400).json({ success: false, message: "No OTP found for this email." });
-    }
-
-    if (Date.now() > record.expiresAt) {
-        delete OTP_STORE[email]; // Clean expired OTP
-        return res.status(400).json({ success: false, message: "OTP has expired." });
-    }
-
-    if (record.otp.toString() === otp.toString()) {
-        delete OTP_STORE[email]; // Clean used OTP
-        return res.status(200).json({ success: true, verified: true,message: "User verified successfully." });
-    } else {
-        return res.status(400).json({ success: false, verified: false,message: "Invalid OTP." });
-    }
-});
 // Database connections
 const collegeDb = mongoose.createConnection('mongodb://localhost:27017/College_Data', {
     useNewUrlParser: true,
@@ -157,6 +108,7 @@ const CollegeSchema = new mongoose.Schema({
     'SEAT TYPE': { type: String },
     'GENDER': { type: String },
     'OPEN RANK': { type: Number },
+    'NIRF_RANK':{type:Number},
     latitude: { type: Number }, // Add latitude if missing
     longitude: { type: Number }, // Add longitude if missing5
 });
@@ -180,11 +132,167 @@ const PredictorUser = userDb.model('PredictorUser', PredictorUserSchema, 'Ouruse
 const AlreadyUserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    verificationStatus: { type: Boolean, default: false },
+    collegeId: { type: mongoose.Schema.Types.ObjectId}, // Optional link to college
 });
 const AlreadyUser = userDb.model('AlreadyUser', AlreadyUserSchema, 'Already-Users');
 
+const collegedetailsSchema = new mongoose.Schema({
+    _id:  mongoose.Schema.Types.ObjectId,
+    "Institute Name ": String,
+    NIRF_RANK:Number,
+    Established: Number,
+    Exam: String,
+    Courses: String,
+    "Institute Type And Approvals": String,
+    Gender: String,
+    "Student Count": Number,
+    "Faculty Count": Number,
+    "Campus Size": String,
+    Domain: String, // e.g., "college.ac.in"
+    Reviews: [
+        {
+          reviewId: mongoose.Schema.Types.ObjectId,
+          userId: mongoose.Schema.Types.ObjectId,
+          questions: { type: [String], required: true }, // Array of question responses
+          suggestions: { type: String, required: true },  // Text for suggestions
+          rating: Number,
+          date: { type: Date, default: Date.now },
+        },
+      ],
+    "Gender Percentage": String,
+    "Percentage Of Students from Outside the States": String,
+    VerifiedUsers: [{ 
+        userId: mongoose.Schema.Types.ObjectId,  // ID of the verified user
+        email: String,                          // Email of the verified user
+        verificationDate: Date,                 // Date when the user was verified
+    }],
+},{ collection: 'college_details' });
 
+const CollegeDetail = collegeDb.model('CollegeDetail', collegedetailsSchema, 'college_details');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const verifyUser = (req, res, next) => {
+//     const { userId } = req.body;
+//     if (!userId) {
+//       return res.status(401).json({ success: false, message: "Unauthorized user" });
+//     }
+//     next();
+//   };
+
+//   router.post("/add-comment", verifyUser, async (req, res) => {
+//     const { collegeId, userId, comment, rating } = req.body;
+  
+//     try {
+//       const college = await CollegeDetail.findById(collegeId);
+//       if (!college) {
+//         return res.status(404).json({ success: false, message: "College not found" });
+//       }
+  
+//       const newComment = {
+//         reviewId: new mongoose.Types.ObjectId(),
+//         userId,
+//         comment,
+//         rating,
+//       };
+  
+//       college.Reviews.push(newComment);
+//       await college.save();
+  
+//       res.status(200).json({ success: true, message: "Comment added successfully" });
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: "Error adding comment", error });
+//     }
+//   });
+  
+//   // Edit an existing comment
+//   router.put("/edit-comment", verifyUser, async (req, res) => {
+//     const { collegeId, reviewId, userId, comment, rating } = req.body;
+  
+//     try {
+//       const college = await CollegeDetail.findById(collegeId);
+//       if (!college) {
+//         return res.status(404).json({ success: false, message: "College not found" });
+//       }
+  
+//       const review = college.Reviews.find(
+//         (r) => r.reviewId.toString() === reviewId && r.userId.toString() === userId
+//       );
+  
+//       if (!review) {
+//         return res.status(404).json({ success: false, message: "Review not found or unauthorized" });
+//       }
+  
+//       review.comment = comment;
+//       review.rating = rating;
+//       await college.save();
+  
+//       res.status(200).json({ success: true, message: "Comment updated successfully" });
+//     } catch (error) {
+//       res.status(500).json({ success: false, message: "Error updating comment", error });
+//     }
+//   });
+  
+//   module.exports = router;
+
+
+
+
+
+
+
+
+// API Endpoint to Fetch College Details by ID
+app.get('/college-details', async (req, res) => {
+
+    const instituteName = req.query.name;
+    if (!instituteName) {
+        return res.status(400).send({ error: 'Institute name is required.' });
+    }
+
+    try {
+        const collegeDetails = await CollegeDetail.findOne({ 'Institute Name ': instituteName });
+        if (!collegeDetails) {
+            return res.status(404).send({ error: 'College not found.' });
+        }
+        console.log("GOOD");
+        const rank = collegeDetails.NIRF_RANK;
+        if (rank === undefined || rank === null || isNaN(rank)) {
+            return res.status(400).send({ error: 'Invalid NIRF rank for the college.' });
+        }
+        console.log("Rank fetched: ", rank);
+        const nearbyColleges = await CollegeDetail.find({
+            NIRF_RANK: { $gte: rank - 2, $lte: rank + 2 },
+        }).limit(5);
+
+        console.log("Institute Name: ", collegeDetails);
+        console.log("Fetched nearby colleges successfully.",rank-2,rank+2);
+
+        res.json({collegeDetails,nearbyColleges
+        });
+        console.log("GOOD1");
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ error: 'Server error.' });
+    }
+});
 app.get('/user-info', (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ message: 'Unauthorized: Please log in' });
@@ -329,71 +437,286 @@ app.post('/signup', async (req, res) => {
 });
 
 // Login route
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
 
+
+app.post("/send-otp", async(req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({ success: false, message: "Email is required." });
+    }
+   
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ success: false, message: "Invalid email format." });
+     }
+     const Domain = email.split("@")[1];
+     const normalizedDomain = Domain.toLowerCase();
+     console.log("email found",Domain);
     try {
-        const user = await AlreadyUser.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+        // Query database to check for a college with the given domain
+       const college = await CollegeDetail.findOne({Domain :normalizedDomain});
+         if (!college) {
+            
+            return res.status(404).json({ success: false, message: "College not found for this email domain." });
+        }
+    console.log("college found",college);
+    const otp = generateOTP();
+    OTP_STORE[email] = { otp, expiresAt: Date.now() + 300000 }; // Valid for 5 minutes
+
+    const mailOptions = {
+        from: "aykg0517@gmail.com",
+        to: email,
+        subject: "Your OTP for College Verification",
+        text: `Your OTP for  is ${otp}. It is valid for 5 minutes.`,
+    };
+    console.log("Request body:", req.body);
+   
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            console.error("Error sending OTP:", err);
+            return res.status(500).json({ success: false, message: "Failed to send OTP." });
+        }
+        res.status(200).json({ success: true, message: "OTP sent successfully." });
+    });
+}catch (error) {
+        console.error("Error sending OTP:", error);
+        return res.status(500).json({ success: false, message: "Failed to send OTP." });
+    }
+});
+
+    app.post("/verify-otp", async(req, res) => {
+        console.log("Received request:", req.body);
+
+        const { email, otp } = req.body;
+        if (!email || !otp) {
+            console.error("Missing email or OTP");
+            return res.status(400).json({ success: false, message: "Email and OTP are required." });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+        const record = OTP_STORE[email];
+        if (!record) {
+            return res.status(400).json({ success: false, message: "No OTP found for this email." });
         }
-        req.session.user = { id: user._id, name: user.name,email:user.email }; // For sessions
-         
-        req.session.searchCount = 0;  // Reset search count on login
-        console.log('Login successful. Session ID:', req.sessionID);
-        res.json(
-            {
-                 success: true, user: { name: user.name,email:user.email } 
+        console.log("Stored OTP:", record.otp, "Received OTP:", otp);
+        console.log("Expires At:", record.expiresAt, "Current Time:", Date.now());
+        if (Date.now() > record.expiresAt) {
+            delete OTP_STORE[email]; // Clean expired OTP
+            return res.status(400).json({ success: false, message: "OTP has expired." });
+        }
+
+        if (record.otp.toString() === otp.toString()) {
+            try{
+                const Domain = email.split("@")[1];
+                const normalizedDomain = Domain.toLowerCase();
+             //console.log("email found",normalizedDomain);
+                 const college = await CollegeDetail.findOne({ Domain:normalizedDomain });
+                 console.log("email found",normalizedDomain);
+                    //  if (!college) {
+                    //      return res.status(404).json({ success: false, message: "College not found for this email domain." });
+                    //  }
+        
+                    
+        
+                  
+
+
+            const user = await AlreadyUser.findOneAndUpdate(
+                { email },
+                { $set: { 
+                    verificationStatus: true,
+                    collegeId: college._id, // Set the college_id in the user's schema
+                 } 
+                },
+                { new: true } // Return the updated user document
+            );
+            console.log("Database user found and updated:", user);
+            if (!user) {
+                return res.status(404).json({ success: false, message: "User not found for this email." });
+            }
+
+            const updatedCollege = await CollegeDetail.findByIdAndUpdate(
+                college._id,
+                {
+                  $addToSet: { VerifiedUsers: { userId: user._id, email, verificationDate: new Date() } },
+                },
+                { new: true }
+              );
+
+                    console.log("Database updated for the college",updatedCollege);
+
+
+        
+            if(user){
+                
+            delete OTP_STORE[email]; // Clean used OTP
+            return res.status(200).json({
+                success: true,
+                verified: true,
+                user:
+                {email:user.email,
+                    name:user.name,
+                    verificationStatus:user.verificationStatus,
+                    college_id: user.collegeId, // Return the updated college_id
+                },
+                college: { name: updatedCollege["Institute Name "], id: updatedCollege._id },
+                message: "User verified successfully.",
                 });
-       
-    } catch (error) {
-        console.error('Error during login:', error);
-        res.status(500).json({ message: 'Server error during login' });
-    }
-});
-
-const collegedetailsSchema = new mongoose.Schema({
-    _id:  mongoose.Schema.Types.ObjectId,
-    "Institute Name ": String,
-    Established: Number,
-    Exam: String,
-    Courses: String,
-    "Institute Type And Approvals": String,
-    Gender: String,
-    "Student Count": Number,
-    "Faculty Count": Number,
-    "Campus Size": String,
-    "Gender Percentage": String,
-    "Percentage Of Students from Outside the States": String
-},{ collection: 'college_details' });
-
-const CollegeDetail = collegeDb.model('CollegeDetail', collegedetailsSchema, 'college_details');
-
-// API Endpoint to Fetch College Details by ID
-app.get('/college-details', async (req, res) => {
-
-    const instituteName = req.query.name;
-    if (!instituteName) {
-        return res.status(400).send({ error: 'Institute name is required.' });
-    }
-
-    try {
-        const collegeDetails = await CollegeDetail.findOne({ 'Institute Name ': instituteName });
-        if (!collegeDetails) {
-            return res.status(404).send({ error: 'College not found.' });
+        } else {
+            console.error("No user found with this email for OTP verification.");
+        return res.status(400).json({ success: false, message: "Invalid OTP." });
+    
         }
-
-        res.json(collegeDetails);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send({ error: 'Server error.' });
+    }catch (error) {
+        console.error("Error updating verification status:", error);
+    return res.status(500).json({ success: false, message: "Database error." });
+    }   
+    }else {
+        return res.status(400).json({ success: false, verified: false, message: "Invalid OTP." });
     }
-});
+    });
+
+    app.get('/review/:collegeId', (req, res) => {
+        const collegeId = req.params.collegeId; // Extract the college ID from the URL
+        res.render('review.html', { collegeId }); // Pass the ID to the frontend
+    });
+    
+
+
+
+
+
+
+    app.post('/login', async (req, res) => {
+        const { email, password } = req.body;
+    
+        try {
+            const user = await AlreadyUser.findOne({ email });
+            if (!user) {
+                return res.status(400).json({ message: 'Invalid email or password' });
+            }
+            console.log('Fetched user from DB:', user);
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Invalid email or password' });
+            }
+            
+            req.session.user = { id: user._id,
+                 name: user.name,
+                 email:user.email,
+                 verificationStatus: user.verificationStatus,
+                 collegeId:user.collegeId,
+                 
+             }; // For sessions
+             
+            req.session.searchCount = 0;  // Reset search count on login
+            console.log('Login successful. Session ID:', req.sessionID);
+            console.log('College ID',user.collegeId);
+            res.json(
+                {
+                     success: true, user: { id:user._id,name: user.name,email:user.email,
+                        verificationStatus: user.verificationStatus,collegeId:user.collegeId } 
+                    });
+           
+        } catch (error) {
+            console.error('Error during login:', error);
+            res.status(500).json({ message: 'Server error during login' });
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    app.post("/add-comment", async (req, res) => {
+        console.log("Request Body:", req.body); // Add this line for debugging
+        const { collegeId, userId, questions,suggestions, rating } = req.body;
+    
+        console.log("Request Body:", req.body); // Debugging
+    
+        // Validate the input data
+        if (!collegeId || !userId || !rating) {
+            return res
+                .status(400)
+                .json({ success: false, message: "All fields are required." });
+        }
+    
+        try {
+            // Create a unique ID for the review
+            // const reviewId = new mongoose.Types.ObjectId();
+    
+            // // Add the review to the college's Reviews array
+            // const updatedCollege = await CollegeDetail.findByIdAndUpdate(
+            //     collegeId,
+            //     {
+            //         $push: {
+            //             Reviews: {
+            //                 reviewId,
+            //                 userId,
+            //                 comment,
+            //                 rating: parseInt(rating, 10), // Ensure rating is a number
+            //                 date: new Date()
+            //             }
+            //         }
+            //     },
+            //     { new: true } // Return the updated document
+            // );
+            const newReview = {
+                reviewId: new mongoose.Types.ObjectId(), // Generate unique ID
+                userId,
+                questions,
+                suggestions,
+                rating,
+                date: new Date(),
+            };
+    
+            const result = await CollegeDetail.updateOne(
+                { _id: collegeId },
+                { $push: { Reviews: newReview } }
+            );
+    
+            console.log("Database Update Result:", result);
+            res.status(200).json({ success: true, message: "Review added successfully!" });
+            if (!result) {
+                return res
+                    .status(404)
+                    .json({ success: false, message: "College not found." });
+            }
+    
+        } catch (error) {
+            console.error("Error adding review:", error);
+            res.status(500).json({
+                success: false,
+                message: "Server error while adding review."
+            });
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //placement-details

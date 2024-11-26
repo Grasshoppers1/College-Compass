@@ -217,6 +217,23 @@
             color: #2d3748;
             text-transform: uppercase;
         }
+        #comparisonGraph {
+            width: 110%;
+    height: 2000px; /* You can adjust this value */
+    max-width: 110%; /* Ensures the chart doesn't overflow */
+}
+#comparisonGraph1{
+            width: 110%;
+    height: 2000px; /* You can adjust this value */
+    max-width: 110%; /* Ensures the chart doesn't overflow */
+}
+#comparisonGraph2{
+            width: 110%;
+    height: 2000px; /* You can adjust this value */
+    max-width: 110%; /* Ensures the chart doesn't overflow */
+}
+
+
     </style>
     
 
@@ -229,7 +246,7 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="index.html#Branch">Branches</a></li>
-                    <li><a href="predictor.html">Predictor</a></li>
+                    <li><a href="  Finder.html">  Finder</a></li>
                     <li><a href="about.html">About</a></li>
                 </ul>
             </div>
@@ -241,11 +258,11 @@
         <p>Loading college details...</p>
     </div>
     
-    <div id="student-diversification" style="margin-top: 30px; text-align: center;">
+    
         <h3 id="diversification-heading">Student Diversification at <span id="institute-name">Institute Name</span></h3>
     <div id="graphs-container" style="display: flex; justify-content: space-around; align-items: center; margin: 20px 0;">
         <div>
-            <h3>Gender Ratio</h3>
+            <h3>Gender Ratio</h3>   
             <canvas id="genderRatioChart" width="400" height="400"></canvas>
         </div>
         <div>
@@ -253,7 +270,14 @@
             <canvas id="outsideStateChart" width="400" height="400"></canvas>
         </div>
     </div>
-   
+  
+    <h3 >Compare among Nearby Rankings</span></h3>
+            
+        <canvas id="comparisonGraph"></canvas>
+        <canvas id="comparisonGraph1"></canvas>
+        <canvas id="comparisonGraph2"></canvas>
+
+    
     <div id="placement-details">
         <p>Loading placement details...</p>
     </div>
@@ -283,12 +307,15 @@
         if (!response.ok) {
             throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
         }
-    
-                const data = await response.json();
-    
+        const result = await response.json();
+        
+                const {collegeDetails: data,nearbyColleges} = result;
+                console.log("API Response:", result);
+                console.log("data",data);
+                console.log("nearbyColleges",nearbyColleges);
                 // Render details in the UI
                 detailsDiv.innerHTML = `
-                    <h1>${data['Institute Name ']}</h1>
+                    <h1>${data["Institute Name "]}</h1>
                     <table>
                         <tr><th>Established Year</th><td>${data.Established}</td></tr>
                         <tr><th>Courses Offered</th><td>${data.Courses}</td></tr>
@@ -302,12 +329,15 @@
                     </table>
                 `;
                 document.getElementById('institute-name').textContent = data['Institute Name '];
+  
       //          const genderPercentages = data['Gender Percentage'].split(',').map((val) => parseFloat(val.trim()));
         //const [malePercentage, femalePercentage] = genderPercentages;
    //     renderAdjacentCollegesGraphs(data['Institute Name ']);
         renderGenderRatioChart(data['Gender Percentage']);
         renderOutsideStateChart(data['Percentage Of Students from Outside the States']);
-
+                renderComparisonGraph(data,nearbyColleges);
+                renderComparisonGraph1(data,nearbyColleges);
+                renderComparisonGraph2(data,nearbyColleges);
     } catch (error) {
                 // Log and display errors
                 console.error('Error fetching college details:', error);
@@ -388,6 +418,213 @@ function renderOutsideStateChart(outsideStatePercentage) {
     });
 }
 
+function renderComparisonGraph(currentCollege, nearbyColleges) {
+    // Extract female percentage from the current college
+    const currentCollegeGender = currentCollege['Gender Percentage'];
+    const currentFemalePercentage = parseFloat(
+        currentCollegeGender.match(/Female (\d+)%/)[1]
+    );
+
+    // Extract female percentages from nearby colleges
+    const collegeNames = [currentCollege['Institute Name ']]; // Include current college first
+    const femalePercentages = [currentFemalePercentage];
+
+    nearbyColleges.forEach((college) => {
+        const genderText = college['Gender Percentage'];
+        const femalePercentage = parseFloat(genderText.match(/Female (\d+)%/)[1]);
+        collegeNames.push(college['Institute Name ']);
+        femalePercentages.push(femalePercentage);
+    });
+    const maxFemalePercentage = Math.max(...femalePercentages, 50); // Ensures 100% is included in case it's the maximum
+
+    // Render the chart
+    const ctx = document.getElementById('comparisonGraph').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar', // Change to 'line' if you want a line graph
+        data: {
+            labels: collegeNames, // X-axis labels
+            datasets: [{
+                label: 'Female Percentage',
+                data: femalePercentages, // Y-axis data
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Disables default aspect ratio for better scaling
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return `${tooltipItem.raw}% Female`; // Tooltip text
+                        },
+                    },
+                },
+                legend: {
+                    display: false,
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max:maxFemalePercentage,
+                    title: {
+                        display: true,
+                        text: 'Percentage (%)',
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Colleges',
+                    },
+                },
+            },
+            layout: {
+            padding: 20, // Adds padding around the chart for spacing
+        },
+        },
+    });
+}
+
+function renderComparisonGraph1(currentCollege, nearbyColleges) {
+    // Extract female percentage from the current college
+    const currentCollegerank = currentCollege.NIRF_RANK;
+    
+
+    // Extract female percentages from nearby colleges
+    const collegeNames = [currentCollege['Institute Name ']]; // Include current college first
+  //  const femalePercentages = [currentFemalePercentage];
+    const nirf=[currentCollegerank];
+    nearbyColleges.forEach((college) => {
+        const NIRF = college.NIRF_RANK;
+        //const femalePercentage = parseFloat(genderText.match(/Female (\d+)%/)[1]);
+        collegeNames.push(college['Institute Name ']);
+        nirf.push(NIRF);
+    });
+
+    // Render the chart
+    const ctx = document.getElementById('comparisonGraph1').getContext('2d');
+    new Chart(ctx, {
+        type: 'line', // Change to 'line' if you want a line graph
+        data: {
+            labels: collegeNames, // X-axis labels
+            datasets: [{
+                label: 'NIRF RANK',
+                data: nirf, // Y-axis data
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Disables default aspect ratio for better scaling
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return `Rank: ${tooltipItem.raw} `; // Tooltip text
+                        },
+                    },
+                },
+                legend: {
+                    display: false,
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'NIRF Ranking 2024',
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Colleges',
+                    },
+                },
+            },
+            layout: {
+            padding: 20, // Adds padding around the chart for spacing
+        },
+        },
+    });
+}
+
+
+function renderComparisonGraph2(currentCollege, nearbyColleges) {
+    // Extract female percentage from the current college
+    const currentCollegecampus = currentCollege['Campus Size'];
+    
+
+    // Extract female percentages from nearby colleges
+    const collegeNames = [currentCollege['Institute Name ']];
+     // Include current college first
+     const campus = [parseFloat(currentCollegecampus.replace(/[^\d.-]/g, ''))]; // Ensure it's a number
+  
+    nearbyColleges.forEach((college) => {
+        const NIRF = college['Campus Size'];
+        const campusSize = parseFloat(NIRF.replace(/[^\d.-]/g, '')); // Ensure it's a number
+        //const femalePercentage = parseFloat(genderText.match(/Female (\d+)%/)[1]);
+        collegeNames.push(college['Institute Name ']);
+        campus.push(campusSize);
+    });
+
+    // Render the chart
+    const ctx = document.getElementById('comparisonGraph2').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar', // Change to 'line' if you want a line graph
+        data: {
+            labels: collegeNames, // X-axis labels
+            datasets: [{
+                label: 'Campus Size (in acres)',
+                data: campus, // Y-axis data
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Disables default aspect ratio for better scaling
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return `Campus Size (in acres): ${tooltipItem.raw} `; // Tooltip text
+                        },
+                    },
+                },
+                legend: {
+                    display: false,
+                },
+            },
+            scales: {
+                y: {
+                 //   beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Campus Size (in acres)',
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Colleges',
+                    },
+                },
+            },
+            layout: {
+            padding: 20, // Adds padding around the chart for spacing
+        },
+        },
+    });
+}
         // Parse outside state percentage
        
         async function fetchplacementDetails() {
@@ -437,6 +674,27 @@ function renderOutsideStateChart(outsideStatePercentage) {
         // Initialize fetching of college details
         document.addEventListener('DOMContentLoaded', fetchCollegeDetails);
         document.addEventListener('DOMContentLoaded', fetchplacementDetails);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>

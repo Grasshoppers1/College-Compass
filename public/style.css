@@ -164,7 +164,7 @@ p {
   transition: 1s;
 }
 
-/* /-------- Predictor home-----/ */
+/* /--------   Finder home-----/ */
 
 .pred {
   margin-top: 200px;
@@ -845,9 +845,9 @@ password-container {
   margin-top: 8px;
 }
 
-/*<!-- ---------Predictor---------- --> */
+/*<!-- ---------  Finder---------- --> */
 
-.predictor {
+.Finder {
   /* background-image: linear-gradient(rgba(245, 246, 252, 0.52), #041546b7),
     url(images/image.jpg); */
   width: 100%;
@@ -861,7 +861,7 @@ password-container {
   color: #fff;
 }
 
-/* .predictor h1 {
+/* .  Finder h1 {
   width: 800px;
   background-image: linear-gradient(#52969c, rgba(99, 126, 166, 0.473));
   margin-top: 50px;
@@ -871,7 +871,7 @@ password-container {
   text-align: center;
 } */
 
-.predictor h1 {
+.Finder h1 {
   width: 800px;
   background: linear-gradient(135deg, #4ecdc4, #2b5876);
   margin: 50px auto;
@@ -1085,7 +1085,7 @@ form {
 }
 
 /* ---------------------result-------------------- */
-.predictor-res {
+.Finder-res {
   background-image: linear-gradient(rgba(245, 246, 252, 0.52), #041546b7),
     url(images/image.jpg);
   width: 100%;
@@ -1094,7 +1094,7 @@ form {
   background-position: center;
 }
 
-.predictor-res h1 {
+.Finder-res h1 {
   width: 1000px;
   background-image: linear-gradient(
     rgba(1, 44, 109, 0.89),
@@ -1106,14 +1106,14 @@ form {
   border-radius: 60px 60px 0px 0px;
   text-align: center;
 }
-.predictor-res h2 {
+.Finder-res h2 {
   font-size: 40px;
   color: #fff;
   text-align: center;
   padding: 40px 0px 0px 0px;
 }
 
-.predictor-res .main {
+.Finder-res .main {
   background-image: linear-gradient(
     rgba(1, 44, 109, 0.89),
     rgba(1, 44, 109, 0.473)
@@ -1147,10 +1147,10 @@ form {
 form {
   padding: 10px;
 }
-.predictor-res .result {
+.Finder-res .result {
   display: flex;
 }
-.predictor-res h3 {
+.Finder-res h3 {
   font-size: 24px;
   color: #faae42;
   text-shadow: 2px 2px 30px #ffffff;
@@ -1158,7 +1158,7 @@ form {
 .colleges {
   padding: 50px;
 }
-.predictor-res .result h4 {
+.Finder-res .result h4 {
   font-size: 18px;
   color: white;
   font-weight: 600;

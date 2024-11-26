@@ -102,10 +102,10 @@
             <ul id="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index.html#Branch">Branches</a></li>
-                <li><a href="index.html#predictor">Finder</a></li>
+                <li><a href="index.html#  Finder"> Finder</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li id="auth-link"><a href="login.html">Login</a></li>
-                <li id="review-link"> </li>
+                <li id="review-link"><a href="review.html"></a> </li>
             </ul>
         </div>
 
@@ -135,11 +135,22 @@
             </div>
         </div>
     </div>
+
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="clock">
+                <div class="clock-hand"></div>
+            </div>
+            <p>Sending...</p>
+        </div>
+    </div>
+
     
        <div class="text-box">
         <h1>Key to Future</h1>
          <a href="about.html" class="hero-btn">Know more about us!</a>
     </div>
+    
    </section>
 
 
@@ -203,8 +214,8 @@
 
 </section>
 
-<!-- -------------Predictor--------- -->
-<section class="pred" id="predictor">
+<!-- -------------  Finder--------- -->
+<section class="pred" id="  Finder">
     <h1>Check Your Eligibility For Your Dream College</h1>
     <div class="row2">
         
@@ -216,7 +227,7 @@
             • To publicise colleges that are not so high up in the pecking order.<br> <br>
             • To help make the admission process easier.<br> <br>
             • To eliminate admission bottlenecks and simplify the operation with custom inputs. <br><br></p>
-        <a href="predictor.html" class="hero-btn">CHECK OUT NOW</a>
+        <a href="  Finder.html" class="hero-btn">CHECK OUT NOW</a>
         </div>
         <div class="col-p">
             <img src="images/prediction.png">
@@ -231,7 +242,7 @@
 <!-- ------------steps--------------- -->
      
 <section class="steps"> 
-    <h1> How does the Finder work?</h1>
+    <h1> How does the  Finder work?</h1>
     <div class="workcard_container">
         <div class="workcard">
             <div class="imgbox">
@@ -239,7 +250,7 @@
             </div>
             <div class="content">
                 <h2>Step I</h2>
-                <p>Access the Finder</p>
+                <p>Access the  Finder</p>
             </div>
         </div>
 
@@ -329,7 +340,7 @@
              <div class="col-md-3">
                  <ul>
                 <h4>Other</h4>
-                <li><a href="predictor.html"><p>Finder</p></a></li>
+                <li><a href="  Finder.html"><p> Finder</p></a></li>
                     <li><a href="about.html"><p>About Us</p></a></li>
                 </ul>
              </div>
@@ -372,10 +383,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Hide the "Login" link and show the user circle
         authLink.style.display = 'none';
         userCircle.style.display = 'inline-block';
-        if (reviewLink) reviewLink.style.display = 'none';  
+          
 
         
-       document.getElementById('nav-links').appendChild(reviewLink);
+       
 
         // Toggle dropdown menu visibility on click
         userCircle.addEventListener('click', (event) => {
@@ -387,7 +398,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener('click', () => {
             dropdownMenu.style.display = 'none';
         });
+            if(user.verificationStatus==true){
+                updateUI(user);
 
+            }
         // Logout functionality
         logoutLink.addEventListener('click', () => {
             localStorage.removeItem('user');
@@ -409,6 +423,8 @@ document.getElementById('verified').addEventListener('click', () => {
         
 });
 async function sendOTP() {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+    document.getElementById('verificationContainer').style.display = 'none';
     try{
         const response = await fetch("http://localhost:5000/send-otp", {
              method: "POST", // Ensure this matches your backend
@@ -425,11 +441,15 @@ async function sendOTP() {
          const data = await response.json(); // Ensure backend returns JSON
          
          console.log(data.message);
+         document.getElementById('loadingOverlay').style.display = 'none';
+         document.getElementById('verificationContainer').style.display = 'block';
          document.getElementById("otpSection").style.display = "block";
          alert('OTP Sent Successfully');
+        
          // Example: Display the message from backend
      }
   catch (error) {
+    document.getElementById('loadingOverlay').style.display = 'none';
          console.error("Error:", error.message);
      }
 }
@@ -466,6 +486,10 @@ async function verifyOTP() {
           alert("OTP verified successfully!");
           const user = JSON.parse(localStorage.getItem('user'));
             user.verified = true; // Update the verified status
+            user.verificationStatus=true;
+            user.college_id = data.college.id; 
+    
+            // Save the college_id from backend response
             localStorage.setItem('user', JSON.stringify(user)); // Save updated user in localStorage
             updateUI(user); // Update the UI
 
@@ -496,15 +520,19 @@ function updateUI(user) {
     const userInitial = document.getElementById('userInitial');
     const reviewLink = document.getElementById('review-link');
     const navLinks = document.getElementById('nav-links');
+    const verifiedButton = document.getElementById("verified");
+
 
     // Add verified tick if user is verified
-    if (user.verified) {
+    if (user.verificationStatus) {
         userInitial.innerHTML = `${user.name.charAt(0).toUpperCase()} <span class="verified-tick">✔️</span>`;
 
         // Show the review link only if not already added
-            reviewLink.innerHTML = `<a href="review.html">Write a Review</a>`;
+            reviewLink.innerHTML = `<a href="review.html "target="_blank">Write a Review</a>`;
+            if (verifiedButton) verifiedButton.style.display = "none"; // Hide the "Get verified" button
         } else {
             reviewLink.innerHTML = ''; // Ensure it's hidden for unverified users
+            if (verifiedButton) verifiedButton.style.display = "block"; // Show the "Get verified" button
 
     }
 }
