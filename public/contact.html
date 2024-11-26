@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>College-Compass</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css">
-<link rel="icon" href="images/logo.png" type="image/x-icon">
-</head>
-<body>
-   <section class="sub-header">
-       <nav>
-        <a href="index.html"><img src="images/Indeximage.png"></a>
-           <div class="nav-links">
-               <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#Branch"> Branches</a></li>
-                <li><a href="  Finder.html">    Finder</a></li>
-                <li><a href="about.html"> About</a></li>
-                  
-                   
-            </ul>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/v4-shims.min.css"
+    />
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
+  </head>
+  <body>
+    <section class="sub-header">
+      <nav>
+        <a href="index.html"><img src="images/Indeximage.png" /></a>
+        <div class="nav-links">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#Branch"> Branches</a></li>
+            <li><a href="  Finder.html"> Finder</a></li>
+            <li><a href="about.html"> About</a></li>
+          </ul>
 
-            <!-- search icon -->
- </div>
-       </nav>
-       <h1>Contact us</h1>
-       
-   </section>
+          <!-- search icon -->
+        </div>
+      </nav>
+      <h1>Contact us</h1>
+    </section>
 
+    <!-- ---------contact---------- -->
 
-<!-- ---------contact---------- -->
-
-<section class="contact-us">
+    <!-- <section class="contact-us">
     <div class="row">
         <div class="contact-col">
             <div>
@@ -76,112 +81,168 @@
         </div>
     </div>
 
-</section>
+</section> -->
 
+    <!-- --------- Contact Us Section --------- -->
 
+    <section class="contact-us">
+      <div class="row">
+        <div class="contact-col">
+          <div>
+            <h5><i class="fab fa-instagram"></i> Instagram</h5>
+            <p>@College-Compass</p>
+          </div>
+          <div>
+            <h5><i class="fab fa-google-plus"></i> Google</h5>
+            <p>contact.collegecompass@gmail.com</p>
+          </div>
+        </div>
 
+        <div class="contact-col">
+          <form id="contact-form">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your name"
+              required
+            />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email address"
+              required
+            />
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              placeholder="Enter your subject"
+              required
+            />
+            <textarea
+              id="message"
+              rows="8"
+              name="message"
+              placeholder="Message"
+              required
+            ></textarea>
+            <button
+              type="submit"
+              class="hero-btn red-btn"
+              onclick="sendEmail(event)"
+            >
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
 
-<!-- ---------call to action--------- -->
+    <!-- ---------call to action--------- -->
 
+    <!-- ---------Footer---------- -->
 
-
-
-
-
-
-
-
-<!-- ---------Footer---------- -->
-
-
-<section class="footer">
-    <div class="container">
+    <section class="footer">
+      <div class="container">
         <div class="row">
-            <div class="col">
-                <img src="images/Indeximage.png" class="footer-logo" >
-               <p>A one-stop solution for students that includes
-                preferences, minority and simultaneously predicts a suitable college
-                   </p>
-             </div>
-             <div class="col-md-3">
-                <h4>Group Members</h4>
-                <p>Ayush Kumar Goyal</p>
-                <p>  Tanmay Gupta</p>
-                <p>  Parth Gupta</p>
-                <p>  </p>
-             </div>
-             <div class="col-md-3">
-                 <ul>
-                <h4>Branches</h4>
-                <li><a href="comps.html"><p>Computer Engineering</p></a></li>
-                <li><a href="IT.html"><p>Information Technology</p></a></li>
-                <li><a href="extc.html"><p>Electronics And Telecommunication</p></a></li>
-                     <li><a href="electronics.html"> <p>Electronics  Engineering</p></a></li>  
-                     <li><a href="AI.html"><p>Artificial-intelligence</p></a></li>
-                              <li><a href="civil.html"><p>Civil Engineering</p></a></li>
-                                  
-                                     
+          <div class="col">
+            <img src="images/Indeximage.png" class="footer-logo" />
+            <p>
+              A one-stop solution for students that includes preferences,
+              minority and simultaneously predicts a suitable college
+            </p>
+          </div>
+          <div class="col-md-3">
+            <h4>Group Members</h4>
+            <p>Ayush Kumar Goyal</p>
+            <p>Tanmay Gupta</p>
+            <p>Parth Gupta</p>
+            <p></p>
+          </div>
+          <div class="col-md-3">
+            <ul>
+              <h4>Branches</h4>
+              <li>
+                <a href="comps.html"><p>Computer Engineering</p></a>
+              </li>
+              <li>
+                <a href="IT.html"><p>Information Technology</p></a>
+              </li>
+              <li>
+                <a href="extc.html"><p>Electronics And Telecommunication</p></a>
+              </li>
+              <li>
+                <a href="electronics.html"> <p>Electronics Engineering</p></a>
+              </li>
+              <li>
+                <a href="AI.html"><p>Artificial-intelligence</p></a>
+              </li>
+              <li>
+                <a href="civil.html"><p>Civil Engineering</p></a>
+              </li>
             </ul>
-            </div>
-             <div class="col-md-3">
-                 <ul>
-                <h4>Other</h4>
-                <li><a href="  Finder.html"><p>  Finder</p></a></li>
-                    <li><a href="about.html"><p>About Us</p></a></li>
-                </ul>
-             </div>
-             <div class="col-md-3">
-                <h4>Contact Us</h4>
-                <p><i class="fab fa-instagram"></i>@College-Compass</p>
-                <p><i class="fab fa-google-plus"></i>contact.collegecompass@gmail.com</p>
-             </div>
-
-        </div> <hr>
+          </div>
+          <div class="col-md-3">
+            <ul>
+              <h4>Other</h4>
+              <li>
+                <a href="  Finder.html"><p>Finder</p></a>
+              </li>
+              <li>
+                <a href="about.html"><p>About Us</p></a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h4>Contact Us</h4>
+            <p><i class="fab fa-instagram"></i>@College-Compass</p>
+            <p>
+              <i class="fab fa-google-plus"></i>contact.collegecompass@gmail.com
+            </p>
+          </div>
+        </div>
+        <hr />
         <p class="copyright">Made by JIITIANS</p>
-    </div>
-
-</section>
-<script>
-    async function sendEmail(event) {
-        
-        const form = document.getElementById('contact-form');
-        document.getElementById('loadingOverlay').style.display = 'flex';
+      </div>
+    </section>
+    <script>
+      async function sendEmail(event) {
+        const form = document.getElementById("contact-form");
+        document.getElementById("loadingOverlay").style.display = "flex";
         const formData = new FormData(form);
-        const data={
-            name: formData.get('name'),
-            email:formData.get('email'),
-            subject:formData.get('subject'),
-            message: formData.get('message')
+        const data = {
+          name: formData.get("name"),
+          email: formData.get("email"),
+          subject: formData.get("subject"),
+          message: formData.get("message"),
         };
 
         event.preventDefault(); // Prevent the default form submission
-        
+
         try {
-            const response = await fetch('http://localhost:5000/send-email', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-                credentials: 'include' // Ensure session cookie is included in the request
+          const response = await fetch("http://localhost:5000/send-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+            credentials: "include", // Ensure session cookie is included in the request
+          });
 
-            });
-    
-            if (!response.ok) {
-            throw new Error('Failed to send message');
+          if (!response.ok) {
+            throw new Error("Failed to send message");
+          }
+
+          const result = await response.json();
+          alert(result.message);
+        } catch (error) {
+          console.error("Error in sendEmail:", error);
+          alert("Failed to send your message. Please try again later.");
+        } finally {
+          // Hide loading overlay after the request completes
+          document.getElementById("loadingOverlay").style.display = "none";
         }
-
-        const result = await response.json();
-        alert(result.message);
-    } catch (error) {
-        console.error('Error in sendEmail:', error);
-        alert('Failed to send your message. Please try again later.');
-    }
-    finally {
-        // Hide loading overlay after the request completes
-        document.getElementById('loadingOverlay').style.display = 'none';
-    }
-}
-    
+      }
     </script>
-
-</body>
+  </body>
 </html>
