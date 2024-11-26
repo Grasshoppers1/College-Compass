@@ -571,6 +571,7 @@
             if (response.ok) {
               alert(result.message || "Login successful!"); // Show success message
               localStorage.setItem("user", JSON.stringify(result.user)); // Save user info
+              
               window.location.href = "index.html"; // Adjust the URL as needed
             } else {
               alert(result.message);
