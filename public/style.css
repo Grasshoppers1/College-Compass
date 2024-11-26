@@ -460,7 +460,181 @@ p {
 
 /* ----------contact us---------- */
 
+/* ---------- Contact Us Styles ---------- */
 .contact-us {
+  width: 80%;
+  margin: auto;
+  padding-top: 60px; /* Adjusted padding for better vertical alignment */
+}
+
+.contact-us .row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px; /* Add space between columns */
+}
+
+.contact-col {
+  flex-basis: 48%;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.contact-col:hover {
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.contact-col h5 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.contact-col p {
+  font-size: 16px;
+  color: #777;
+  margin-left: 10px;
+}
+
+.contact-col div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px; /* Added more space between each contact method */
+}
+
+.contact-col .fab {
+  font-size: 32px; /* Increased icon size for better visibility */
+  color: #faae42;
+  margin-right: 20px;
+}
+
+.contact-col input,
+.contact-col textarea {
+  width: 100%;
+  padding: 18px 20px;
+  margin-bottom: 25px; /* More space between fields */
+  outline: none;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: "Arial", sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.contact-col input:focus,
+.contact-col textarea:focus {
+  border-color: #faae42;
+  box-shadow: 0 0 8px rgba(250, 174, 66, 0.5);
+  background-color: #fff;
+}
+
+.contact-col textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 18px 20px;
+}
+
+.contact-col ::placeholder {
+  color: #bbb;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.hero-btn {
+  display: inline-block;
+  background-color: #faae42;
+  color: #fff;
+  font-size: 18px;
+  padding: 15px 35px;
+  border-radius: 30px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: none;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.hero-btn:hover {
+  background-color: #e99a33; /* Slightly darker shade for hover effect */
+  transform: translateY(-3px); /* Subtle hover effect */
+}
+
+.hero-btn:active {
+  transform: translateY(1px); /* Button press effect */
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 10px;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.clock {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #faae42;
+  border-radius: 50%;
+  border-top: 4px solid transparent;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+.clock-hand {
+  width: 2px;
+  height: 10px;
+  background-color: #faae42;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+  transform: translate(-50%, -50%) rotate(90deg);
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(450deg);
+  }
+}
+
+/* .contact-us {
   width: 80%;
   margin: auto;
   padding-top: 80px;
@@ -500,7 +674,7 @@ p {
   margin-bottom: 17px;
   outline: none;
   border: 1px solid #ccc;
-}
+} */
 
 /*<!-- ---------comps content---------- --> */
 
@@ -1636,22 +1810,76 @@ button {
 button:hover {
   background-color: #003580; /* Darker blue */
 }
+/* ---------- Sub-header Section ---------- */
 .sub-header {
   background: #e8f1f9; /* Light blue background */
-  padding: 40px 0;
+  padding: 20px 20px; /* Reduced padding for a more compact header */
   text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Added a subtle shadow for depth */
+  border-radius: 8px; /* Optional: rounded corners for a softer look */
 }
 
 .sub-header h1 {
   color: #0047ab;
-  font-size: 2.5rem;
+  font-size: 2rem; /* Reduced font size for a more balanced header */
   font-weight: 700;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
-.details-container h2 {
-  font-size: 2rem;
+
+.sub-header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Added margin to push the header content down slightly */
+}
+
+.sub-header nav a {
+  display: inline-block;
+}
+
+.sub-header nav .nav-links ul {
+  display: flex;
+  gap: 20px; /* Space out the menu items */
+  list-style: none;
+}
+
+.sub-header nav .nav-links a {
+  text-decoration: none;
   color: #0047ab;
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 1.1rem; /* Adjusted font size for a more proportional look */
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.sub-header nav .nav-links a:hover {
+  color: #faae42; /* Hover effect for menu items */
+}
+
+/* For better responsiveness, ensure the logo and menu items scale well on smaller screens */
+@media (max-width: 768px) {
+  .sub-header {
+    padding: 15px 10px;
+  }
+
+  .sub-header h1 {
+    font-size: 1.8rem; /* Adjusted font size for smaller screens */
+  }
+
+  .sub-header nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sub-header nav .nav-links ul {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  .sub-header nav .nav-links a {
+    font-size: 1rem; /* Reduced font size on mobile */
+  }
 }
 
 /* Circle for the User Initial */
